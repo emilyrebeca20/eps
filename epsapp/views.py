@@ -3,6 +3,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 
-def testassets(request):
+#Renderiza la plantilla padre
+def templatet(request):
     #return HttpResponse('Hola')
-    return render(request,'index.html')
+    return render(request,'home.html')

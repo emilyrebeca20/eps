@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'eps.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^assetst','epsapp.views.testassets',name='testassets'),
+    url(r'^template','epsapp.views.templatet',name='templatet'),
 
     url(r'^admin/', include(admin.site.urls)),
 )
