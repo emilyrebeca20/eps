@@ -1,9 +1,111 @@
-{% extends "parenttemplate.html" %}
+{% extends "usertemplate.html" %}
+{% load staticfiles %}
 
 {% block title %}Inicio{% endblock title %}
 
+{% block headscripts %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+    		console.log( "ready!" );
+			$('.carousel').carousel();
+		});
+	</script>
+{% endblock headscripts %}
+
+{% block navbarcontent %}
+	<li class="active"><a href="#">Inicio</a></li>
+    <li><a href="#">Nosotros</a></li>
+    <li><a href="#">Contacto</a></li>
+    <li><a href="#">Servicios</a></li>
+{% endblock navbarcontent %}
+
 {% block rowscontent %}
 	<div id="bannerrow" class="row">
-		
+		<div id="clogo" class="col-md-4">
+			
+		</div>
+		<div class="col-md-7">
+			<div id="carousel-example-captions" class="carousel slide" data-ride="carousel">
+		      <ol class="carousel-indicators">
+		        <li data-target="#carousel-example-captions" data-slide-to="0" class="active"></li>
+		        <li data-target="#carousel-example-captions" data-slide-to="1"></li>
+		        <li data-target="#carousel-example-captions" data-slide-to="2"></li>
+		      </ol>
+		      <div class="carousel-inner">
+		        <div class="item active">
+		          <img src="{% static 'assets/images/carousel1.jpg' %}" alt="Entrega rápida y confiable.">
+		          <div class="carousel-caption cslide">
+		            <h3>Entrega rápida y confiable.</h3>
+		          </div>
+		        </div>
+		        <div class="item">
+		          <img src="{% static 'assets/images/carousel2.jpg' %}" alt="Second slide image">
+		          <div class="carousel-caption cslide">
+		            <h3>Rastree sus paquetes cuando lo necesite.</h3>
+		          </div>
+		        </div>
+		        <div class="item">
+		          <img src="{% static 'assets/images/carousel3.jpg' %}" alt="Third slide image">
+		          <div class="carousel-caption">
+		            <h3>Soluciones para su negocio.</h3>
+		          </div>
+		        </div>
+		      </div>
+		      <a class="left carousel-control" href="#carousel-example-captions" data-slide="prev">
+		        <span class="glyphicon glyphicon-chevron-left"></span>
+		      </a>
+		      <a class="right carousel-control" href="#carousel-example-captions" data-slide="next">
+		        <span class="glyphicon glyphicon-chevron-right"></span>
+		      </a>
+		    </div>
+
+			<!--
+			<div id="carousel-home" class="carousel slide" data-ride="carousel">
+			 
+			  	<ol class="carousel-indicators">
+				    <li data-target="#carousel-home" data-slide-to="0" class="active"></li>
+				    <li data-target="#carousel-home" data-slide-to="1"></li>
+				    <li data-target="#carousel-home" data-slide-to="2"></li>
+			  	</ol>
+	
+			  	<div class="carousel-inner">
+				    <div class="item active">
+				      	<img src="{% static 'assets/images/carousel1.jpg' %}" alt="Entrega rápida y confiable."  width="450px" height="250px">
+				      	<div class="carousel-caption">
+				        Entrega rápida y confiable.
+				      	</div>
+				    </div>
+				     <div>
+				      	<img src="{% static 'assets/images/carousel2.jpg' %}" alt="Rastree sus paquetes cuando lo necesite." width="450px" height="250px">
+				      	<div class="carousel-caption">
+				        Rastree sus paquetes cuando lo necesite.
+				      	</div>
+				    </div>
+				     <div>
+				      	<img src="{% static 'assets/images/carousel3.jpg' %}" alt="Soluciones para su negocio." width="450px" height="250px">
+				      	<div class="carousel-caption">
+				        Soluciones para su negocio.
+				      	</div>
+				    </div>
+			  	</div>
+			
+				<a class="left carousel-control" href="#carousel-home" data-slide="prev">
+				    <span class="glyphicon glyphicon-chevron-left"></span>
+				</a>
+				<a class="right carousel-control" href="#carousel-home" data-slide="next">
+				    <span class="glyphicon glyphicon-chevron-right"></span>
+				</a>
+			</div>
+			-->
+		</div>
 	</div>
 {% endblock rowscontent %}
+
+<!--
+{% block scripts %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+{% endblock scripts %}
+-->
+
+
+

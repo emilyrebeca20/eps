@@ -1,15 +1,63 @@
-#bannerrow{
-	background: 
+/*#bannerrow {
+	background: #0D2139;
+	color: #FFFFFF;
+}*/
+
+#bannerrow1 {
+	 /* IE10 */
+	background-image: -ms-linear-gradient(right, #0D2139 0%, #FFFFFF 100%);
+	/* Mozilla Firefox */
+	background-image: -moz-linear-gradient(right, #0D2139 0%, #FFFFFF 100%);
+	/* Opera */
+	background-image: -o-linear-gradient(right, #0D2139 0%, #FFFFFF 100%);
+	/* Webkit (Safari/Chrome 10) */
+	background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #FFFFFF), color-stop(1, #00A3EF));
+	/* Webkit (Chrome 11+) */
+	background-image: -webkit-linear-gradient(right, #0D2139 0%, #FFFFFF 100%);
+	/* Proposed W3C Markup */
+	background-image: linear-gradient(right,#0D2139 0%, #FFFFFF 100%);
 }
 
-.bluewhiteback{
-	margin: 0;
-	padding: 0;
-	background: #FFFFFF url(../images/img01.jpg) repeat-x left top;
+#bannerrow2 {
+		background-color: #FFFFFF;
+	 }
+
+#navbarrow {
+	 /* IE10 */
+	background-image: -ms-linear-gradient(right, #0D2139 36%, #FFC50C 100%);
+	/* Mozilla Firefox */
+	background-image: -moz-linear-gradient(right, #0D2139 36%, #FFC50C 100%);
+	/* Opera */
+	background-image: -o-linear-gradient(right, #0D2139 36%, #FFC50C 100%);
+	/* Webkit (Safari/Chrome 10) */
+	background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #FFFFFF), color-stop(1, #00A3EF));
+	/* Webkit (Chrome 11+) */
+	background-image: -webkit-linear-gradient(right, #0D2139 36%, #FFC50C 100%);
+	/* Proposed W3C Markup */
+	background-image: linear-gradient(right,#0D2139 36%, #FFC50C 100%);
+	 }
+
+body {
+	 /* IE10 */
+	background-image: -ms-linear-gradient(right, #0D2139 36%, #FFC50C 100%);
+	/* Mozilla Firefox */
+	background-image: -moz-linear-gradient(right, #0D2139 36%, #FFC50C 100%);
+	/* Opera */
+	background-image: -o-linear-gradient(right, #0D2139 36%, #FFC50C 100%);
+	/* Webkit (Safari/Chrome 10) */
+	background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #FFFFFF), color-stop(1, #00A3EF));
+	/* Webkit (Chrome 11+) */
+	background-image: -webkit-linear-gradient(right, #0D2139 36%, #FFC50C 100%);
+	/* Proposed W3C Markup */
+	background-image: linear-gradient(right,#0D2139 36%, #FFC50C 100%);
+	 }
+
+.cslide {
 	color: #000000;
 }
 
+#clogo {
 
-
+}
 
 
