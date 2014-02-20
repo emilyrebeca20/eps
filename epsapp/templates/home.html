@@ -21,8 +21,19 @@
 
 {% block rowscontent %}
 	<div id="bannerrow" class="row">
-		<div id="clogo" class="col-md-4">
-			
+		<div class="col-md-4">
+            <img id="clogo" src="{% static 'assets/images/logo.png' %}" alt="EPS Express logo">
+            <div class="bs-callout">
+            	<h3>Rastree su paquete</h3>
+            	<form role="form">
+				    <div class="form-group">
+					    <label for="trackingnumberi">Número de rastreo:</label>
+					    <input type="text" class="form-control" id="trackingnumberi" placeholder="Ingrese número de rastreo">
+				  	</div>
+				  	<button type="submit" class="btn btn-default">Rastrear</button>
+				</form>
+
+            </div>
 		</div>
 		<div class="col-md-7">
 			<div id="carousel-example-captions" class="carousel slide" data-ride="carousel">
@@ -35,19 +46,22 @@
 		        <div class="item active">
 		          <img src="{% static 'assets/images/carousel1.jpg' %}" alt="Entrega rápida y confiable.">
 		          <div class="carousel-caption cslide">
-		            <h3>Entrega rápida y confiable.</h3>
+		            <h3>Entrega rápida y confiable:</h3>
+		            <p>Le garantizamos la entrega de su paquete en el tiempo prometido.</p>
 		          </div>
 		        </div>
 		        <div class="item">
 		          <img src="{% static 'assets/images/carousel2.jpg' %}" alt="Second slide image">
 		          <div class="carousel-caption cslide">
-		            <h3>Rastree sus paquetes cuando lo necesite.</h3>
+		            <h3>Rastree sus paquetes cuando lo necesite</h3>
+		            <p>Con nuestra herramienta web mantengase al tanto del estado de su envío en todo momento.</p>
 		          </div>
 		        </div>
 		        <div class="item">
 		          <img src="{% static 'assets/images/carousel3.jpg' %}" alt="Third slide image">
 		          <div class="carousel-caption">
 		            <h3>Soluciones para su negocio.</h3>
+		            <p>Ofrecemos todo tipo de planes a la medida de su empresa.</p>
 		          </div>
 		        </div>
 		      </div>
@@ -97,6 +111,11 @@
 				</a>
 			</div>
 			-->
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			
 		</div>
 	</div>
 {% endblock rowscontent %}

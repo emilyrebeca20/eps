@@ -56,8 +56,26 @@ body {
 	color: #000000;
 }
 
-#clogo {
+#clogo { 
+	 /* Webkit (Safari/Chrome) */ -webkit-box-shadow: 0px 0px 3px 7px #0D2139;
+	/* Mozilla Firefox */ -moz-box-shadow: 0px 0px 3px 7px #0D2139;
+	/* Proposed W3C Markup */ box-shadow: 0px 0px 3px 7px #0D2139;
+	display:block;
+    margin:auto;
+	}
 
+#carousel-example-captions { 
+	 /* Webkit (Safari/Chrome) */ -webkit-box-shadow: 7px 0px 3px 7px #FFFFFF;
+	/* Mozilla Firefox */ -moz-box-shadow: 7px 0px 3px 7px #FFFFFF;
+	/* Proposed W3C Markup */ box-shadow: 7px 0px 3px 7px #FFFFFF;
+	}
+
+.bs-callout{
+	margin:20px 0;
+	padding:20px;
+	border-left:5px solid #eee;
+	background-color:#E7EFFA;
+	border-color:#0D2139;
 }
 
 
