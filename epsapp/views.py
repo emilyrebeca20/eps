@@ -4,6 +4,6 @@ from django.http import HttpResponse
 # Create your views here.
 
 #Renderiza la plantilla padre
-def templatet(request):
+def home(request):
     #return HttpResponse('Hola')
     return render(request,'home.html')
