@@ -11,6 +11,10 @@ class LocationAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Location, LocationAdmin)
 
+class StatusAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Status, StatusAdmin)
+
 class RouteAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Route, RouteAdmin)
@@ -38,10 +42,6 @@ admin.site.register(Employee, EmployeeAdmin)
 class LogEntryAdmin(admin.ModelAdmin):
     pass
 admin.site.register(LogEntry, LogEntryAdmin)
-
-class ReportTypeAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(ReportType, ReportTypeAdmin)
 
 class ReportAdmin(admin.ModelAdmin):
     pass

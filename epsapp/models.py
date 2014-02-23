@@ -27,6 +27,7 @@ class Location(models.Model):
 	"""docstring for Location"""
 
 	city = models.CharField(max_length=100,verbose_name=u'Ciudad')
+	state = models.CharField(max_length=100,verbose_name=u'Estado')
 	country = models.CharField(max_length=100,verbose_name=u'Pais')
 	zip_code = models.CharField(max_length=50,verbose_name=u'ZIP')
 
@@ -35,11 +36,33 @@ class Location(models.Model):
 		verbose_name_plural = 'Locations'
 
 	def __unicode__(self):
-		return u'Ciudad: %s - ZIP: %s - Pais: %s' % (
+		return u'Ciudad: %s Estado: %s - ZIP: %s - Pais: %s' % (
 			self.city,
+			self.state,
 			self.zip_code,
 			self.country)
 
+class Status(models.Model):
+	"""docstring for Status"""
+	DELIVERYREQUEST_STATUS = (
+		('00','Recibida'),
+		('01','Por despachar'),
+		('02','Despachada'),
+		('03','Entregada'))
+	status = models.CharField(choices=DELIVERYREQUEST_STATUS,max_length=50,default='00',verbose_name=u'Estado')
+	status_date = models.DateTimeField(auto_now=True,verbose_name=u'Fecha estado')
+	location = models.ForeignKey(Location,verbose_name=u'Ubicacion')
+
+	class Meta:
+		verbose_name = 'Status'
+		verbose_name_plural = 'Status'
+
+	def __unicode__(self):
+		return u'%s %s %s' % (
+			self.status,
+			self.status_date,
+			self.location)
+	
 #Modelo Ruta
 class Route(models.Model):
 	"""docstring for Route"""
@@ -63,17 +86,10 @@ class DeliveryRequest(models.Model):
 	request_date = models.DateTimeField(auto_now_add=True,verbose_name=u'Fecha de solicitud')
 	tracking_number = models.CharField(max_length=100,verbose_name=u'Numero de rastreo')
 	delivery_date = models.DateTimeField(verbose_name=u'Fecha de entrega')
-	DELIVERYREQUEST_STATUS = (
-		('00','Recibida'),
-		('01','Por despachar'),
-		('02','Despachada'),
-		('03','Entregada'))
-	status = models.CharField(choices=DELIVERYREQUEST_STATUS,max_length=50,default='00',verbose_name=u'Estado')
-	status_date = models.DateTimeField(auto_now=True,verbose_name=u'Fecha ultimo estado')
 	address = models.TextField(verbose_name=u'Direccion')
 	additional_info = models.TextField(blank=True,verbose_name=u'Informacion adicional')
 	route = models.ForeignKey(Route,verbose_name=u'Ruta')
-	locations = models.ManyToManyField(Location,null=True,verbose_name=u'Historial de ubicaciones')
+	history = models.ManyToManyField(Status,null=True,verbose_name=u'Historial de estados')
 	associated_comm = models.ForeignKey(Associated,verbose_name=u'Comercio')
 
 	class Meta:
@@ -230,7 +246,16 @@ class Report(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True,verbose_name=u'Fecha de creacion')
 	int_int = models.DateTimeField(verbose_name=u'Inicio intervalo')
 	int_end = models.DateTimeField(verbose_name=u'Fin intervalo')
-	type = models.ForeignKey(ReportType,verbose_name=u'Tipo de reporte')
+	REPORT_TYPES = (
+		('01','Solicitudes despachadas y tiempo de despacho'),
+		('02','Solicitudes pendientes y tiempo pendiente'),
+		('03','Clientes ordenados por cantidad de solicitudes'),
+		('04','Destinos ordenados por cantidad de solicitudes'),
+		('05','Facturas ordenadas por tiempo de cancelacion'),
+		('06','Facturas vigentes por cobrar'),
+		('07','Facturas vencidas por cobrar'),
+		)
+	type = models.CharField(max_length=50,verbose_name=u'Tipo de reporte')
 	pdf_path = models.FilePathField(null=True,blank=True,path="static/pdf/reports",match=".*\.pdf",verbose_name=u'Archivo PDF')
 	employee = models.ForeignKey(Employee,verbose_name=u'Empleado')
 
@@ -244,7 +269,7 @@ class Report(models.Model):
 			self.date_created,
 			self.int_int,
 			self.int_end,
-			self.type.description)
+			self.type)
 
 #Modelo cuenta de				
 class Account(models.Model): 

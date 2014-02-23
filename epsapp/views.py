@@ -8,3 +8,4 @@ from datetime import *
 def home(request):
     #return HttpResponse('Hola')
     return render(request,'home.html')
+    
