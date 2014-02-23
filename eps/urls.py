@@ -4,11 +4,16 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'eps.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
 
+    ###---Paginas:---###
+    #Pagina principal
     url(r'^home','epsapp.views.home',name='home'),
 
+    #Informacion de envio
+    url(r'^rastreo','epsapp.views.tracking',name='tracking'),
+
+    ###---Servicios Web:---###
+
+    ###---Administracion:---###
     url(r'^admin/', include(admin.site.urls)),
 )

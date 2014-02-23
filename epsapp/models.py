@@ -10,7 +10,7 @@ class Associated(models.Model):
 	"""docstring for Associated"""
 
 	added = models.DateTimeField(verbose_name=u'Asociado en')
-	rif = models.CharField(max_length=50,verbose_name=u'RIF')
+	rif = models.CharField(unique=True,max_length=50,verbose_name=u'RIF')
 	assoc_name = models.CharField(max_length=100,verbose_name=u'Comercio')
 
 	class Meta:
@@ -29,7 +29,7 @@ class Location(models.Model):
 	city = models.CharField(max_length=100,verbose_name=u'Ciudad')
 	state = models.CharField(max_length=100,verbose_name=u'Estado')
 	country = models.CharField(max_length=100,verbose_name=u'Pais')
-	zip_code = models.CharField(max_length=50,verbose_name=u'ZIP')
+	zip_code = models.CharField(unique=True,max_length=50,verbose_name=u'ZIP')
 
 	class Meta:
 		verbose_name = 'Location'
@@ -84,7 +84,7 @@ class DeliveryRequest(models.Model):
 	"""docstring for DeliveryRequest"""
 	
 	request_date = models.DateTimeField(auto_now_add=True,verbose_name=u'Fecha de solicitud')
-	tracking_number = models.CharField(max_length=100,verbose_name=u'Numero de rastreo')
+	tracking_number = models.CharField(unique=True,max_length=100,verbose_name=u'Numero de rastreo')
 	delivery_date = models.DateTimeField(verbose_name=u'Fecha de entrega')
 	address = models.TextField(verbose_name=u'Direccion')
 	additional_info = models.TextField(blank=True,verbose_name=u'Informacion adicional')
@@ -188,7 +188,7 @@ class Employee(models.Model):
 
 	user = models.OneToOneField(User,verbose_name=u'Usuario')
 	hire_date = models.DateField(auto_now_add=True,editable=False,verbose_name=u'Fecha contratacion')
-	ci = models.CharField(max_length=50,verbose_name=u'Cedula')
+	ci = models.CharField(unique=True,max_length=50,verbose_name=u'Cedula')
 	middle_name = models.CharField(max_length=50,blank=True,verbose_name=u'Segundo Nombre')
 	second_last_name = models.CharField(max_length=50,blank=True,verbose_name=u'Segundo Apellido')
 	phone = models.CharField(max_length=50,verbose_name=u'Telefono')
@@ -223,28 +223,12 @@ class LogEntry(models.Model):
 			self.event_type,
 			self.event_desc)
 
-#Modelo Tipo de Reporte
-class ReportType(models.Model):
-	"""docstring for ReportType"""
-
-	code = models.CharField(max_length=5,verbose_name=u'Codigo')
-	description = models.CharField(max_length=100,verbose_name=u'Descripcion')
-
-	class Meta:
-		verbose_name = 'ReportType'
-		verbose_name_plural = 'ReportTypes'
-
-	def __unicode__(self):
-		return u'Codigo: %s - %s' % (
-			self.code,
-			self.description)
-
 #Modelo Reporte
 class Report(models.Model):
 	"""docstring for Report"""
 
 	date_created = models.DateTimeField(auto_now_add=True,verbose_name=u'Fecha de creacion')
-	int_int = models.DateTimeField(verbose_name=u'Inicio intervalo')
+	int_init = models.DateTimeField(verbose_name=u'Inicio intervalo')
 	int_end = models.DateTimeField(verbose_name=u'Fin intervalo')
 	REPORT_TYPES = (
 		('01','Solicitudes despachadas y tiempo de despacho'),
@@ -267,7 +251,7 @@ class Report(models.Model):
 		return u'Creado por: %s en %s Intervalo: %s - %s %s' % (
 			self.employee,
 			self.date_created,
-			self.int_int,
+			self.int_init,
 			self.int_end,
 			self.type)
 
