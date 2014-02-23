@@ -1,0 +1,1179 @@
+[
+{
+ "pk": 1, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "logentry", 
+  "name": "log entry", 
+  "app_label": "admin"
+ }
+},
+{
+ "pk": 2, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "permission", 
+  "name": "permission", 
+  "app_label": "auth"
+ }
+},
+{
+ "pk": 3, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "group", 
+  "name": "group", 
+  "app_label": "auth"
+ }
+},
+{
+ "pk": 4, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "user", 
+  "name": "user", 
+  "app_label": "auth"
+ }
+},
+{
+ "pk": 5, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "contenttype", 
+  "name": "content type", 
+  "app_label": "contenttypes"
+ }
+},
+{
+ "pk": 6, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "session", 
+  "name": "session", 
+  "app_label": "sessions"
+ }
+},
+{
+ "pk": 7, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "associated", 
+  "name": "Associated", 
+  "app_label": "epsapp"
+ }
+},
+{
+ "pk": 8, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "location", 
+  "name": "Location", 
+  "app_label": "epsapp"
+ }
+},
+{
+ "pk": 9, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "route", 
+  "name": "Route", 
+  "app_label": "epsapp"
+ }
+},
+{
+ "pk": 10, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "deliveryrequest", 
+  "name": "DeliveryRequest", 
+  "app_label": "epsapp"
+ }
+},
+{
+ "pk": 11, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "package", 
+  "name": "Package", 
+  "app_label": "epsapp"
+ }
+},
+{
+ "pk": 12, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "bill", 
+  "name": "Bill", 
+  "app_label": "epsapp"
+ }
+},
+{
+ "pk": 13, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "role", 
+  "name": "Role", 
+  "app_label": "epsapp"
+ }
+},
+{
+ "pk": 14, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "employee", 
+  "name": "Employee", 
+  "app_label": "epsapp"
+ }
+},
+{
+ "pk": 15, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "logentry", 
+  "name": "LogEntry", 
+  "app_label": "epsapp"
+ }
+},
+{
+ "pk": 16, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "reporttype", 
+  "name": "ReportType", 
+  "app_label": "epsapp"
+ }
+},
+{
+ "pk": 17, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "report", 
+  "name": "Report", 
+  "app_label": "epsapp"
+ }
+},
+{
+ "pk": 18, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "account", 
+  "name": "Account", 
+  "app_label": "epsapp"
+ }
+},
+{
+ "pk": "y3zg3uos7fapv3qffddqqvjsy91ra7oq", 
+ "model": "sessions.session", 
+ "fields": {
+  "expire_date": "2014-03-09T02:05:24Z", 
+  "session_data": "ZDY0YjdlNWEwMDRkYTg3M2U2MDlkZTc1YTE4ZmU4OGNkYjZiNzJmMjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0="
+ }
+},
+{
+ "pk": 1, 
+ "model": "epsapp.associated", 
+ "fields": {
+  "rif": "94785274", 
+  "added": "2014-02-23T00:54:55Z", 
+  "assoc_name": "Comercio Uno"
+ }
+},
+{
+ "pk": 1, 
+ "model": "epsapp.location", 
+ "fields": {
+  "city": "Maiquetia", 
+  "zip_code": "0102", 
+  "country": "Venezuela"
+ }
+},
+{
+ "pk": 2, 
+ "model": "epsapp.location", 
+ "fields": {
+  "city": "Caracas", 
+  "zip_code": "0104", 
+  "country": "Venezuela"
+ }
+},
+{
+ "pk": 3, 
+ "model": "epsapp.location", 
+ "fields": {
+  "city": "Merida", 
+  "zip_code": "0106", 
+  "country": "Venezuela"
+ }
+},
+{
+ "pk": 1, 
+ "model": "epsapp.route", 
+ "fields": {
+  "destination": 1, 
+  "charge_x_km": 30.0
+ }
+},
+{
+ "pk": 2, 
+ "model": "epsapp.route", 
+ "fields": {
+  "destination": 2, 
+  "charge_x_km": 40.0
+ }
+},
+{
+ "pk": 3, 
+ "model": "epsapp.route", 
+ "fields": {
+  "destination": 3, 
+  "charge_x_km": 100.0
+ }
+},
+{
+ "pk": 2, 
+ "model": "epsapp.deliveryrequest", 
+ "fields": {
+  "status": "00", 
+  "request_date": "2014-02-23T01:01:18Z", 
+  "route": 1, 
+  "status_date": "2014-02-23T01:01:18Z", 
+  "locations": [
+   3
+  ], 
+  "tracking_number": "VE0102123456", 
+  "associated_comm": 1, 
+  "address": "Cualquier direccion", 
+  "additional_info": "", 
+  "delivery_date": "2014-02-26T16:30:00Z"
+ }
+},
+{
+ "pk": 3, 
+ "model": "epsapp.package", 
+ "fields": {
+  "description": "", 
+  "added_date": "2014-02-23T01:22:40Z", 
+  "weigth": 5.0, 
+  "height": 30.0, 
+  "width": 30.0, 
+  "length": 30.0, 
+  "delivery_req": 2
+ }
+},
+{
+ "pk": 3, 
+ "model": "epsapp.bill", 
+ "fields": {
+  "payment_date": null, 
+  "dist_rif": "123456789", 
+  "dist_name": "EPS Express", 
+  "issuance_date": "2014-02-23T05:36:34Z", 
+  "sub_total": 0.0, 
+  "request": 2, 
+  "taxes": 0.0, 
+  "account_number": "0000000000000", 
+  "expiration_date": "2014-03-25T05:36:34Z", 
+  "total": 0.0, 
+  "payment_status": "00"
+ }
+},
+{
+ "pk": 1, 
+ "model": "epsapp.role", 
+ "fields": {
+  "role_name": "Gerente"
+ }
+},
+{
+ "pk": 2, 
+ "model": "epsapp.role", 
+ "fields": {
+  "role_name": "Despachador"
+ }
+},
+{
+ "pk": 2, 
+ "model": "epsapp.reporttype", 
+ "fields": {
+  "code": "01", 
+  "description": "Solicitudes Despachadas y tiempo de despacho"
+ }
+},
+{
+ "pk": 3, 
+ "model": "epsapp.reporttype", 
+ "fields": {
+  "code": "02", 
+  "description": "Solicitudes Pendientes y tiempo pendiente"
+ }
+},
+{
+ "pk": 4, 
+ "model": "epsapp.reporttype", 
+ "fields": {
+  "code": "03", 
+  "description": "Clientes ordenados con la cantidad de solicitudes realizadas"
+ }
+},
+{
+ "pk": 5, 
+ "model": "epsapp.reporttype", 
+ "fields": {
+  "code": "04", 
+  "description": "Destinos ordenados por su cantidad de solicitudes"
+ }
+},
+{
+ "pk": 6, 
+ "model": "epsapp.reporttype", 
+ "fields": {
+  "code": "05", 
+  "description": "Facturas ordenadas por tiempo de cancelaci\u00f3n"
+ }
+},
+{
+ "pk": 7, 
+ "model": "epsapp.reporttype", 
+ "fields": {
+  "code": "06", 
+  "description": "Facturas ordenadas por tiempo de cancelaci\u00f3n"
+ }
+},
+{
+ "pk": 8, 
+ "model": "epsapp.reporttype", 
+ "fields": {
+  "code": "07", 
+  "description": "Facturas vencidas por cobrar"
+ }
+},
+{
+ "pk": 1, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_logentry", 
+  "name": "Can add log entry", 
+  "content_type": 1
+ }
+},
+{
+ "pk": 2, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_logentry", 
+  "name": "Can change log entry", 
+  "content_type": 1
+ }
+},
+{
+ "pk": 3, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_logentry", 
+  "name": "Can delete log entry", 
+  "content_type": 1
+ }
+},
+{
+ "pk": 4, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_permission", 
+  "name": "Can add permission", 
+  "content_type": 2
+ }
+},
+{
+ "pk": 5, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_permission", 
+  "name": "Can change permission", 
+  "content_type": 2
+ }
+},
+{
+ "pk": 6, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_permission", 
+  "name": "Can delete permission", 
+  "content_type": 2
+ }
+},
+{
+ "pk": 7, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_group", 
+  "name": "Can add group", 
+  "content_type": 3
+ }
+},
+{
+ "pk": 8, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_group", 
+  "name": "Can change group", 
+  "content_type": 3
+ }
+},
+{
+ "pk": 9, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_group", 
+  "name": "Can delete group", 
+  "content_type": 3
+ }
+},
+{
+ "pk": 10, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_user", 
+  "name": "Can add user", 
+  "content_type": 4
+ }
+},
+{
+ "pk": 11, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_user", 
+  "name": "Can change user", 
+  "content_type": 4
+ }
+},
+{
+ "pk": 12, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_user", 
+  "name": "Can delete user", 
+  "content_type": 4
+ }
+},
+{
+ "pk": 13, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_contenttype", 
+  "name": "Can add content type", 
+  "content_type": 5
+ }
+},
+{
+ "pk": 14, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_contenttype", 
+  "name": "Can change content type", 
+  "content_type": 5
+ }
+},
+{
+ "pk": 15, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_contenttype", 
+  "name": "Can delete content type", 
+  "content_type": 5
+ }
+},
+{
+ "pk": 16, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_session", 
+  "name": "Can add session", 
+  "content_type": 6
+ }
+},
+{
+ "pk": 17, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_session", 
+  "name": "Can change session", 
+  "content_type": 6
+ }
+},
+{
+ "pk": 18, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_session", 
+  "name": "Can delete session", 
+  "content_type": 6
+ }
+},
+{
+ "pk": 19, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_associated", 
+  "name": "Can add Associated", 
+  "content_type": 7
+ }
+},
+{
+ "pk": 20, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_associated", 
+  "name": "Can change Associated", 
+  "content_type": 7
+ }
+},
+{
+ "pk": 21, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_associated", 
+  "name": "Can delete Associated", 
+  "content_type": 7
+ }
+},
+{
+ "pk": 22, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_location", 
+  "name": "Can add Location", 
+  "content_type": 8
+ }
+},
+{
+ "pk": 23, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_location", 
+  "name": "Can change Location", 
+  "content_type": 8
+ }
+},
+{
+ "pk": 24, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_location", 
+  "name": "Can delete Location", 
+  "content_type": 8
+ }
+},
+{
+ "pk": 25, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_route", 
+  "name": "Can add Route", 
+  "content_type": 9
+ }
+},
+{
+ "pk": 26, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_route", 
+  "name": "Can change Route", 
+  "content_type": 9
+ }
+},
+{
+ "pk": 27, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_route", 
+  "name": "Can delete Route", 
+  "content_type": 9
+ }
+},
+{
+ "pk": 28, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_deliveryrequest", 
+  "name": "Can add DeliveryRequest", 
+  "content_type": 10
+ }
+},
+{
+ "pk": 29, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_deliveryrequest", 
+  "name": "Can change DeliveryRequest", 
+  "content_type": 10
+ }
+},
+{
+ "pk": 30, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_deliveryrequest", 
+  "name": "Can delete DeliveryRequest", 
+  "content_type": 10
+ }
+},
+{
+ "pk": 31, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_package", 
+  "name": "Can add Package", 
+  "content_type": 11
+ }
+},
+{
+ "pk": 32, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_package", 
+  "name": "Can change Package", 
+  "content_type": 11
+ }
+},
+{
+ "pk": 33, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_package", 
+  "name": "Can delete Package", 
+  "content_type": 11
+ }
+},
+{
+ "pk": 34, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_bill", 
+  "name": "Can add Bill", 
+  "content_type": 12
+ }
+},
+{
+ "pk": 35, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_bill", 
+  "name": "Can change Bill", 
+  "content_type": 12
+ }
+},
+{
+ "pk": 36, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_bill", 
+  "name": "Can delete Bill", 
+  "content_type": 12
+ }
+},
+{
+ "pk": 37, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_role", 
+  "name": "Can add Role", 
+  "content_type": 13
+ }
+},
+{
+ "pk": 38, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_role", 
+  "name": "Can change Role", 
+  "content_type": 13
+ }
+},
+{
+ "pk": 39, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_role", 
+  "name": "Can delete Role", 
+  "content_type": 13
+ }
+},
+{
+ "pk": 40, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_employee", 
+  "name": "Can add Employee", 
+  "content_type": 14
+ }
+},
+{
+ "pk": 41, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_employee", 
+  "name": "Can change Employee", 
+  "content_type": 14
+ }
+},
+{
+ "pk": 42, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_employee", 
+  "name": "Can delete Employee", 
+  "content_type": 14
+ }
+},
+{
+ "pk": 43, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_logentry", 
+  "name": "Can add LogEntry", 
+  "content_type": 15
+ }
+},
+{
+ "pk": 44, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_logentry", 
+  "name": "Can change LogEntry", 
+  "content_type": 15
+ }
+},
+{
+ "pk": 45, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_logentry", 
+  "name": "Can delete LogEntry", 
+  "content_type": 15
+ }
+},
+{
+ "pk": 46, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_reporttype", 
+  "name": "Can add ReportType", 
+  "content_type": 16
+ }
+},
+{
+ "pk": 47, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_reporttype", 
+  "name": "Can change ReportType", 
+  "content_type": 16
+ }
+},
+{
+ "pk": 48, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_reporttype", 
+  "name": "Can delete ReportType", 
+  "content_type": 16
+ }
+},
+{
+ "pk": 49, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_report", 
+  "name": "Can add Report", 
+  "content_type": 17
+ }
+},
+{
+ "pk": 50, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_report", 
+  "name": "Can change Report", 
+  "content_type": 17
+ }
+},
+{
+ "pk": 51, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_report", 
+  "name": "Can delete Report", 
+  "content_type": 17
+ }
+},
+{
+ "pk": 52, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "add_account", 
+  "name": "Can add Account", 
+  "content_type": 18
+ }
+},
+{
+ "pk": 53, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "change_account", 
+  "name": "Can change Account", 
+  "content_type": 18
+ }
+},
+{
+ "pk": 54, 
+ "model": "auth.permission", 
+ "fields": {
+  "codename": "delete_account", 
+  "name": "Can delete Account", 
+  "content_type": 18
+ }
+},
+{
+ "pk": 1, 
+ "model": "auth.user", 
+ "fields": {
+  "username": "emily", 
+  "first_name": "", 
+  "last_name": "", 
+  "is_active": true, 
+  "is_superuser": true, 
+  "is_staff": true, 
+  "last_login": "2014-02-23T02:05:24Z", 
+  "groups": [], 
+  "user_permissions": [], 
+  "password": "pbkdf2_sha256$12000$Mx8lQzlmInSZ$uWzgTBdt+M6/PJoGmWLnD8tRKbCmzUThGVDl15Rm5Xg=", 
+  "email": "emilyrebeca20@gmail.com", 
+  "date_joined": "2014-02-23T00:17:40Z"
+ }
+},
+{
+ "pk": 1, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:33:39Z", 
+  "object_repr": "Codigo: 01 - Solicitudes Despachadas y tiempo de despacho.", 
+  "object_id": "2", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 16
+ }
+},
+{
+ "pk": 2, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 2, 
+  "action_time": "2014-02-23T00:33:56Z", 
+  "object_repr": "Codigo: 01 - Solicitudes Despachadas y tiempo de despacho", 
+  "object_id": "2", 
+  "change_message": "Changed description.", 
+  "user": 1, 
+  "content_type": 16
+ }
+},
+{
+ "pk": 3, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:34:13Z", 
+  "object_repr": "Codigo: 02 - Solicitudes Pendientes y tiempo pendiente", 
+  "object_id": "3", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 16
+ }
+},
+{
+ "pk": 4, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:34:25Z", 
+  "object_repr": "Codigo: 03 - Clientes ordenados con la cantidad de solicitudes realizadas", 
+  "object_id": "4", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 16
+ }
+},
+{
+ "pk": 5, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:34:37Z", 
+  "object_repr": "Codigo: 04 - Destinos ordenados por su cantidad de solicitudes", 
+  "object_id": "5", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 16
+ }
+},
+{
+ "pk": 6, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:34:49Z", 
+  "object_repr": "Codigo: 05 - Facturas ordenadas por tiempo de cancelaci\u00f3n", 
+  "object_id": "6", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 16
+ }
+},
+{
+ "pk": 7, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:35:03Z", 
+  "object_repr": "Codigo: 06 - Facturas ordenadas por tiempo de cancelaci\u00f3n", 
+  "object_id": "7", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 16
+ }
+},
+{
+ "pk": 8, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:35:26Z", 
+  "object_repr": "Codigo: 07 - Facturas vencidas por cobrar", 
+  "object_id": "8", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 16
+ }
+},
+{
+ "pk": 9, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:55:26Z", 
+  "object_repr": "Comercio Uno - Anadido: 2014-02-22 20:24:55-04:30 - RIF: 94785274", 
+  "object_id": "1", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 7
+ }
+},
+{
+ "pk": 10, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:56:15Z", 
+  "object_repr": "Ciudad: Maiquetia - ZIP: 0102 - Pais: Venezuela", 
+  "object_id": "1", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 8
+ }
+},
+{
+ "pk": 11, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:56:28Z", 
+  "object_repr": "Ciudad: Caracas - ZIP: 0104 - Pais: Venezuela", 
+  "object_id": "2", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 8
+ }
+},
+{
+ "pk": 12, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:56:51Z", 
+  "object_repr": "Ciudad: Merida - ZIP: 0106 - Pais: Venezuela", 
+  "object_id": "3", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 8
+ }
+},
+{
+ "pk": 13, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:57:09Z", 
+  "object_repr": "Ruta a Ciudad: Maiquetia - ZIP: 0102 - Pais: Venezuela con costo por KM de 30.0", 
+  "object_id": "1", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 9
+ }
+},
+{
+ "pk": 14, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:57:18Z", 
+  "object_repr": "Ruta a Ciudad: Caracas - ZIP: 0104 - Pais: Venezuela con costo por KM de 40.0", 
+  "object_id": "2", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 9
+ }
+},
+{
+ "pk": 15, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T00:57:25Z", 
+  "object_repr": "Ruta a Ciudad: Merida - ZIP: 0106 - Pais: Venezuela con costo por KM de 100.0", 
+  "object_id": "3", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 9
+ }
+},
+{
+ "pk": 16, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T01:01:18Z", 
+  "object_repr": "Solicitada: 2014-02-23 01:01:18.315000+00:00 - Tracking: VE0102123456 - Estado: 00 - A:Ciudad: Maiquetia - ZIP: 0102 - Pais: Venezuela Cualquier direccion", 
+  "object_id": "2", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 10
+ }
+},
+{
+ "pk": 17, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T01:22:40Z", 
+  "object_repr": "Agregado: 2014-02-23 01:22:40.712000+00:00 - Peso: 5.0 - Largo: 30.0 - Ancho: 30.0 - Altp: 30.0 - Solicitud: Solicitada: 2014-02-23 01:01:18+00:00 - Tracking: VE0102123456 - Estado: 00 - A: Ciudad: Ma", 
+  "object_id": "3", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 11
+ }
+},
+{
+ "pk": 18, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T02:45:15Z", 
+  "object_repr": "Comercio: Comercio Uno - Anadido: 2014-02-23 00:54:55+00:00 - RIF: 94785274 - Sub-total 0.0 + Impuestos 0.0 = Total 0.0 - 00", 
+  "object_id": "1", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 12
+ }
+},
+{
+ "pk": 19, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T05:18:05Z", 
+  "object_repr": "Comercio: Comercio Uno - Anadido: 2014-02-23 00:54:55+00:00 - RIF: 94785274 - Sub-total 0.0 + Impuestos 0.0 = Total 0.0 - 00 - Se vence: 2014-03-25 00:48:05.557000", 
+  "object_id": "1", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 12
+ }
+},
+{
+ "pk": 20, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T05:29:16Z", 
+  "object_repr": "Comercio: Comercio Uno - Anadido: 2014-02-23 00:54:55+00:00 - RIF: 94785274 - Sub-total 0.0 + Impuestos 0.0 = Total 0.0 - 00 - Se vence: 2014-03-25 00:59:16", 
+  "object_id": "2", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 12
+ }
+},
+{
+ "pk": 21, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 3, 
+  "action_time": "2014-02-23T05:35:56Z", 
+  "object_repr": "Comercio: Comercio Uno - Anadido: 2014-02-23 00:54:55+00:00 - RIF: 94785274 - Sub-total 0.0 + Impuestos 0.0 = Total 0.0 - 00 - Se vence: 2014-03-25 05:29:16+00:00", 
+  "object_id": "2", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 12
+ }
+},
+{
+ "pk": 22, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 3, 
+  "action_time": "2014-02-23T05:35:56Z", 
+  "object_repr": "Comercio: Comercio Uno - Anadido: 2014-02-23 00:54:55+00:00 - RIF: 94785274 - Sub-total 0.0 + Impuestos 0.0 = Total 0.0 - 00 - Se vence: 2014-03-25 05:18:05+00:00", 
+  "object_id": "1", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 12
+ }
+},
+{
+ "pk": 23, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T05:36:34Z", 
+  "object_repr": "Comercio: Comercio Uno - Anadido: 2014-02-23 00:54:55+00:00 - RIF: 94785274 - Sub-total 0.0 + Impuestos 0.0 = Total 0.0 - 00 - Se vence: 2014-03-25 05:36:34.610000+00:00", 
+  "object_id": "3", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 12
+ }
+},
+{
+ "pk": 24, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T05:42:37Z", 
+  "object_repr": "Rol: Gerente", 
+  "object_id": "1", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 13
+ }
+},
+{
+ "pk": 25, 
+ "model": "admin.logentry", 
+ "fields": {
+  "action_flag": 1, 
+  "action_time": "2014-02-23T05:42:44Z", 
+  "object_repr": "Rol: Despachador", 
+  "object_id": "2", 
+  "change_message": "", 
+  "user": 1, 
+  "content_type": 13
+ }
+}
+]
