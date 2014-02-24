@@ -1,0 +1,84 @@
+{% extends "usertemplate.html" %}
+{% load staticfiles %}
+
+{% block title %}Rastrear{% endblock title %}
+
+
+{% block navbarcontent %}
+	<li class="active"><a href="/home">Inicio</a></li>
+    <li><a href="#">Nosotros</a></li>
+    <li><a href="#">Contacto</a></li>
+    <li><a href="#">Servicios</a></li>
+{% endblock navbarcontent %}
+
+{% block rowscontent %}
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Solicitud: {{deliveryreq.tracking_number}} - Entrega estimada: {{deliveryreq.delivery_date}}</h3>
+				</div>
+				<div class="panel-body">
+			    	<ul class="list-group">
+			    		<li class="list-group-item">
+							<h4><span class="label label-primary">Estado:</span>
+							{% if deliveryreq.history.last.status == '00' %}
+								<span class="label label-default">Recibida</span>
+							{% elif deliveryreq.history.last.status == '01' %}
+								<span class="label label-info">Por despachar</span>
+							{% elif deliveryreq.history.last.status == '02' %}
+								<span class="label label-primary">Despachada</span>
+							{% elif deliveryreq.history.last.status == '03' %}
+								<span class="label label-success">Entregada</span>
+							{% endif %}	
+							</h4>
+						</li>
+						<li class="list-group-item">
+							<h4><span class="label label-primary">Datos de destino:</span></h4>
+							<h5><strong>Dirección:</strong> {{deliveryreq.address}}</h5>
+							<h5><strong>Ciudad:</strong> {{deliveryreq.route.destination.city}}</h5>
+							<h5><strong>Código Postal:</strong> {{deliveryreq.route.destination.state}}</h5>
+							<h5><strong>Estado: {{deliveryreq.route.destination.zip_code}}</strong></h5>
+							<h5><strong>País:</strong> {{deliveryreq.route.destination.country}}</h5>
+						</li>
+						<li class="list-group-item">
+							<h4><span class="label label-primary">Historial:</span></h4>
+
+							<table class="table">
+								<tr>
+									<th>Fecha</th>
+									<th>Estado</th>
+									<th>Ciudad</th>
+									<th>Provincia</th>
+									<th>País</th>
+								</tr>
+								{% for dr in deliveryreq.history.all  %}
+								<tr>
+									<td>{{dr.status_date}}</td>
+									{% if dr.status == '00' %}
+										<td><span class="label label-default">Recibida</span></td>
+									{% elif dr.status == '01' %}
+										<td><span class="label label-info">Por despachar</span></td>
+									{% elif dr.status == '02' %}
+										<td><span class="label label-primary">Despachada</span></td>
+									{% elif dr.status == '03' %}
+										<td><span class="label label-success">Entregada</span></td>
+									{% endif %}	
+									<td>{{dr.location.city}}</td>
+									<td>{{dr.location.state}}</td>
+									<td>{{dr.location.country}}</td>
+								</tr>
+								{% endfor %}
+							</table>
+						</li>
+						<li class="list-group-item">
+							<h4><span class="label label-primary">Información adicional:</span></h4>
+							<p>{{deliveryreq.additional_info}}</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock rowscontent %}

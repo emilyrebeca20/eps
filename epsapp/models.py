@@ -22,6 +22,9 @@ class Associated(models.Model):
 			self.assoc_name,
 			self.added,self.rif)
 
+	def natural_key(self):
+		return (self.added,self.rif,self.assoc_name)
+
 #Modelo Ubicacion
 class Location(models.Model):
 	"""docstring for Location"""
@@ -56,6 +59,7 @@ class Status(models.Model):
 	class Meta:
 		verbose_name = 'Status'
 		verbose_name_plural = 'Status'
+		ordering = ['status_date']
 
 	def __unicode__(self):
 		return u'%s %s %s' % (
@@ -89,7 +93,7 @@ class DeliveryRequest(models.Model):
 	address = models.TextField(verbose_name=u'Direccion')
 	additional_info = models.TextField(blank=True,verbose_name=u'Informacion adicional')
 	route = models.ForeignKey(Route,verbose_name=u'Ruta')
-	history = models.ManyToManyField(Status,null=True,verbose_name=u'Historial de estados')
+	history = models.ManyToManyField(Status,null=True,verbose_name=u'Historial de estados') #Correr el syncdb para que pueda ser null
 	associated_comm = models.ForeignKey(Associated,verbose_name=u'Comercio')
 
 	class Meta:
@@ -97,10 +101,9 @@ class DeliveryRequest(models.Model):
 		verbose_name_plural = 'DeliveryRequests'
 
 	def __unicode__(self):
-		return u'Solicitada: %s - Tracking: %s - Estado: %s - A: %s %s' % (
+		return u'Solicitada: %s - Tracking: %s - A: %s %s' % (
 			self.request_date,
 			self.tracking_number,
-			self.status,
 			self.route.destination,
 			self.address)
 
