@@ -25,7 +25,21 @@
     {% block banner %}
     {% endblock banner %}
 	<div class="container-fluid">
-		{% block rowscontent %}
+        <div class="row">
+            <div class="col-md-12">
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissable">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                              <strong>{{ message }}</strong>
+                            </div>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        {% block rowscontent %}
 		{% endblock rowscontent %}
     </div>
     <!-- End Content -->

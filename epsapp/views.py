@@ -3,6 +3,7 @@ from django.http import *
 from datetime import *
 from epsapp.models import *
 from django.core import serializers
+from django.contrib import messages
 
 # Create your views here.
 
@@ -19,10 +20,10 @@ def tracking(request):
 		delivery_req = DeliveryRequest.objects.filter(tracking_number=trackingnum)
 		if delivery_req.count() == 1:
 			delivery_req_json = serializers.serialize("json", [delivery_req.first(),],use_natural_keys=True)
-			#return HttpResponse(delivery_req_json,content_type='application/json')
 			return render(request,'trackinginfo.html',{"deliveryreq":delivery_req.first()})
 		else:
-			return HttpResponse("No existe la solicitud",content_type='text/plain')
+			messages.error(request,'La solicitud requerida no existe.',extra_tags='danger')
+			return render(request,'trackinginfo.html')
 	else:
 		return HttpResponse(status=400)
 	
