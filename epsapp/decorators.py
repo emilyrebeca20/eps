@@ -9,11 +9,11 @@ from django.shortcuts import render
 def manager_required(view_func): 
 	def _wrapped_view_func(request, *args, **kwargs):
 		requser = request.user 
-		print requser.id
+		#print requser.id
 		userobjs = User.objects.filter(id=requser.id)
 		if userobjs.count() == 1:
 			userobj = userobjs.first()
-			print userobj
+			#print userobj
 			profile = Employee.objects.filter(user=userobj)
 			if profile.count() == 1:
 				userprof = profile.first()
@@ -30,11 +30,11 @@ def manager_required(view_func):
 def employee_required(view_func): 
 	def _wrapped_view_func(request, *args, **kwargs):
 		requser = request.user 
-		print requser.id
+		#print requser.id
 		userobjs = User.objects.filter(id=requser.id)
 		if userobjs.count() == 1:
 			userobj = userobjs.first()
-			print userobj
+			#print userobj
 			profile = Employee.objects.filter(user=userobj)
 			if profile.count() == 1:
 				userprof = profile.first()

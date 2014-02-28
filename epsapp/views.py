@@ -80,6 +80,22 @@ def manager(request):
 def dispatcher(request):
 	return render(request,'employeemain.html')
 
+@employee_required
+def alldelrequest_disp(request):
+	return render(request,'deliveryrequest-disp.html')
+	
+@manager_required
+def alldelrequest_man(request):
+	return render(request,'deliveryrequest-man.html')
+
+@manager_required
+def reports(request):
+	return render(request,'reports-man.html')
+
+@manager_required
+def logs(request):
+	return render(request,'logs-man.html')
+
 def emplogout(request):
 	logout(request)
 	messages.success(request,'Cierre de sesión exitoso.',extra_tags='success')
