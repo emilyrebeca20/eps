@@ -2,14 +2,16 @@
 {% load staticfiles %}
 
 {% block othercss %}
-	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/usercss.css' %}"/>
 {% endblock othercss %}
 
 {% block banner %}
 <div class="container-fluid">
 	<div class="row trans-cont">
-		<div class="col-md-12 ">
-			<img src="{% static 'assets/images/logosfpeq.png' %}" alt="EPS Express logo">       
+		<div class="col-md-12">
+			<img src="{% static 'assets/images/logosfpeq.png' %}" alt="EPS Express logo">
+			{% if user.is_authenticated %} 
+				<h3>{% block role %}{% endblock role %}{{ user.first_name }} {{user.last_name}}</h3>
+			{% endif %}
 		</div>
 	</div>
 	<div class="row">

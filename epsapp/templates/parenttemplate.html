@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	{% load staticfiles %}
 	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/bootstrap-3.1.1-dist/css/bootstrap.min.css' %}"> 
-	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/default.css' %}"/>
+    {% block othercss %}
+    {% endblock othercss %}
     <title>{% block title %}EPS Express{% endblock title %}</title>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

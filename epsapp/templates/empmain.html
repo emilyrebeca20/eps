@@ -1,0 +1,35 @@
+{% extends "emptemplate.html" %}
+{% load staticfiles %}
+
+
+{% block title %}Sistema EPS: Iniciar sesión{% endblock title %}
+
+
+{% block othercss %}
+	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/empcss.css' %}"/>
+{% endblock othercss %}
+
+{% block navbarcontent %}
+	<li class="active"><a href="#">Inicio de sesión</a></li>
+{% endblock navbarcontent %}
+
+{% block rowscontent %}
+	<div class="row">
+		<div class="col-md-4">
+			<div class="bs-callout bs-callout-blue">
+				<form role="form" method="POST" action="/appeps/login" >
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="usernamei">Usuario:</label>		
+					    <input type="text" class="form-control" id="usernamei" placeholder="Nombre de usuario" name="username" required="true">
+				  	</div>
+				  	<div class="form-group">
+					    <label for="passwordi">Password</label>
+					    <input type="password" class="form-control" id="passwordi" placeholder="Contraseña" name="password" required="true">
+					</div>
+				  	<button type="submit" class="btn btn-primary">Iniciar sesión</button>
+				</form>	
+			</div>
+		</div>
+	</div>
+{% endblock rowscontent %}

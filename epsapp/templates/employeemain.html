@@ -1,0 +1,29 @@
+{% extends "emptemplate.html" %}
+{% load staticfiles %}
+
+
+{% block title %}Sistema EPS: Despachador{% endblock title %}
+
+{% block role %}
+	Despachador:
+{% endblock role %}
+
+{% block othercss %}
+	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/empcss.css' %}"/>
+{% endblock othercss %}
+
+{% block navbarcontent %}
+	<li class="active"><a href="#">Inicio</a></li>
+	<li><a href="#">Gestión de Solicitudes</a></li>
+	<li><a href="/appeps/logout">Cerrar sesión</a></li>
+{% endblock navbarcontent %}
+
+{% block rowscontent %}
+	<div class="row">
+		<div class="col-md-12">
+			<div class="bs-callout bs-callout-blue">
+				<h1>Despachador</h1>
+			</div>
+		</div>
+	</div>
+{% endblock rowscontent %}

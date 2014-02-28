@@ -1,0 +1,38 @@
+
+body {
+	 /* IE10 */
+	background-image: -ms-linear-gradient(right, #20528E 36%, #FFC50C 100%);
+	/* Mozilla Firefox */
+	background-image: -moz-linear-gradient(right, #20528E 36%, #FFC50C 100%);
+	/* Opera */
+	background-image: -o-linear-gradient(right, #20528E 36%, #FFC50C 100%);
+	/* Webkit (Safari/Chrome 10) */
+	background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #FFFFFF), color-stop(1, #00A3EF));
+	/* Webkit (Chrome 11+) */
+	background-image: -webkit-linear-gradient(right, #20528E 36%, #FFC50C 100%);
+	/* Proposed W3C Markup */
+	background-image: linear-gradient(right,#20528E 36%, #FFC50C 100%);
+	 }
+
+.cslide {
+	color: #000000;
+}
+
+.trans-cont {
+	background-color: rgba(255, 255, 255, 0.7);
+}
+
+.trans-car {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.bs-callout{
+	margin:20px 0;
+	padding:20px;
+	border-left:5px solid #eee;
+}
+
+.bs-callout-blue {
+	background-color:#FFFFB3;
+	border-color:#0D2139;
+}

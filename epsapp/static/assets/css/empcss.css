@@ -1,0 +1,10 @@
+.bs-callout{
+	margin:20px 0;
+	padding:20px;
+	border-left:5px solid #eee;
+}
+
+.bs-callout-blue {
+	background-color:#F7F7F9;
+	border-color:#428BCA;
+}

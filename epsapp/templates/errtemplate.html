@@ -1,0 +1,13 @@
+{% extends "emptemplate.html" %}
+{% load staticfiles %}
+
+
+{% block title %}Sistema EPS: Error{% endblock title %}
+
+{% block othercss %}
+	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/empcss.css' %}"/>
+{% endblock othercss %}
+
+{% block navbarcontent %}
+	<li class="active"><a href="/appeps">Inicio de sesión</a></li>
+{% endblock navbarcontent %}
