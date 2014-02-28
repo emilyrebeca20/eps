@@ -23,8 +23,36 @@
 {% block rowscontent %}
 	<div class="row">
 		<div class="col-md-12">
-			<div class="bs-callout bs-callout-blue">
-				<h1>Gestión de solicitudes</h1>
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#recibidas" data-toggle="tab">Recibidas</a></li>
+				<li><a href="#pordespachar" data-toggle="tab">Por despachar</a></li>
+				<li><a href="#despachadas" data-toggle="tab">Despachadas</a></li>
+				<li><a href="#entregadas" data-toggle="tab">Entregadas</a></li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+			  	<div class="tab-pane active" id="recibidas">
+			  		<div class="bs-callout bs-callout-blue">
+						<h1>Recibidas</h1>
+					</div>
+			  	</div>
+			  	<div class="tab-pane" id="pordespachar">
+			  		<div class="bs-callout bs-callout-blue">
+						<h1>Por despachar</h1>
+					</div>
+			  	</div>
+			  	<div class="tab-pane" id="despachadas">
+			  		<div class="bs-callout bs-callout-blue">
+						<h1>Despachadas</h1>
+					</div>
+			  	</div>
+			  	<div class="tab-pane" id="entregadas">
+			  		<div class="bs-callout bs-callout-blue">
+						<h1>Entregadas</h1>
+					</div>
+			  	</div>
 			</div>
 		</div>
 	</div>
