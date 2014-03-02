@@ -68,13 +68,13 @@
 									{{request.tracking_number}}
 									</a>
 								</td>
-								{% if request.history.last.status == '00' %}
+								{% if request.status_set.last.status == '00' %}
 									<td><span class="label label-default">Recibida</span></td>
-								{% elif request.history.last.status == '01' %}
+								{% elif request.status_set.last.status == '01' %}
 									<td><span class="label label-info">Por despachar</span></td>
-								{% elif request.history.last.status == '02' %}
+								{% elif request.status_set.last.status == '02' %}
 									<td><span class="label label-primary">Despachada</span></td>
-								{% elif request.history.last.status == '03' %}
+								{% elif request.status_set.last.status == '03' %}
 									<td><span class="label label-success">Entregada</span></td>
 								{% endif %}	
 								<td>{{request.address}}</td>
@@ -100,7 +100,7 @@
 								<th>País</th>
 							</tr>
 							{% for request in delrequests %}
-							{% if request.history.last.status == '00' %}
+							{% if request.status_set.last.status == '00' %}
 								<tr>
 									<td>{{request.request_date}}</td>
 									<td>
@@ -132,7 +132,7 @@
 								<th>País</th>
 							</tr>
 							{% for request in delrequests %}
-							{% if request.history.last.status == '01' %}
+							{% if request.status_set.last.status == '01' %}
 								<tr>
 									<td>{{request.request_date}}</td>
 									<td>
@@ -164,7 +164,7 @@
 								<th>País</th>
 							</tr>
 							{% for request in delrequests %}
-							{% if request.history.last.status == '02' %}
+							{% if request.status_set.last.status == '02' %}
 								<tr>
 									<td>{{request.request_date}}</td>
 									<td>
@@ -196,7 +196,7 @@
 								<th>País</th>
 							</tr>
 							{% for request in delrequests %}
-							{% if request.history.last.status == '03' %}
+							{% if request.status_set.last.status == '03' %}
 								<tr>
 									<td>{{request.request_date}}</td>
 									<td>

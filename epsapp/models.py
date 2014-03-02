@@ -44,28 +44,6 @@ class Location(models.Model):
 			self.state,
 			self.zip_code,
 			self.country)
-
-class Status(models.Model):
-	"""docstring for Status"""
-	DELIVERYREQUEST_STATUS = (
-		('00','Recibida'),
-		('01','Por despachar'),
-		('02','Despachada'),
-		('03','Entregada'))
-	status = models.CharField(choices=DELIVERYREQUEST_STATUS,max_length=50,default='00',verbose_name=u'Estado')
-	status_date = models.DateTimeField(auto_now=True,verbose_name=u'Fecha estado')
-	location = models.ForeignKey(Location,verbose_name=u'Ubicacion')
-
-	class Meta:
-		verbose_name = 'Status'
-		verbose_name_plural = 'Status'
-		ordering = ['status_date']
-
-	def __unicode__(self):
-		return u'%s %s %s' % (
-			self.status,
-			self.status_date,
-			self.location)
 	
 #Modelo Ruta
 class Route(models.Model):
@@ -93,7 +71,6 @@ class DeliveryRequest(models.Model):
 	address = models.TextField(verbose_name=u'Direccion')
 	additional_info = models.TextField(blank=True,verbose_name=u'Informacion adicional')
 	route = models.ForeignKey(Route,verbose_name=u'Ruta')
-	history = models.ManyToManyField(Status,null=True,verbose_name=u'Historial de estados') #Correr el syncdb para que pueda ser null
 	associated_comm = models.ForeignKey(Associated,verbose_name=u'Comercio')
 
 	class Meta:
@@ -107,6 +84,30 @@ class DeliveryRequest(models.Model):
 			self.tracking_number,
 			self.route.destination,
 			self.address)
+
+#Modelo Estado
+class Status(models.Model):
+	"""docstring for Status"""
+	DELIVERYREQUEST_STATUS = (
+		('00','Recibida'),
+		('01','Por despachar'),
+		('02','Despachada'),
+		('03','Entregada'))
+	status = models.CharField(choices=DELIVERYREQUEST_STATUS,max_length=50,default='00',verbose_name=u'Estado')
+	status_date = models.DateTimeField(auto_now=True,verbose_name=u'Fecha estado')
+	location = models.ForeignKey(Location,verbose_name=u'Ubicacion')
+	delrequest = models.ForeignKey(DeliveryRequest,verbose_name=u'Solicitud')
+
+	class Meta:
+		verbose_name = 'Status'
+		verbose_name_plural = 'Status'
+		ordering = ['status_date']
+
+	def __unicode__(self):
+		return u'%s %s %s' % (
+			self.status,
+			self.status_date,
+			self.location)
 
 #Modelo Paquete
 class Package(models.Model):
