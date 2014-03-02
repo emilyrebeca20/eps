@@ -13,16 +13,21 @@ urlpatterns = patterns('',
     url(r'^rastreo','epsapp.views.tracking',name='tracking'),
 
     #Empleados
-    url(r'^appeps/iniciarsesion','epsapp.views.emplogin',name='emplogin'),
-    url(r'^appeps/cerrarsesion','epsapp.views.emplogout',name='emplogout'),
-    url(r'^appeps/gerente/solicitudes','epsapp.views.alldelrequest_man',name='alldelrequest_man'),
-    url(r'^appeps/gerente/reportes','epsapp.views.reports',name='reports'),
-    url(r'^appeps/gerente/eventos','epsapp.views.logs',name='logs'),
-    url(r'^appeps/gerente','epsapp.views.manager',name='manager'),
-    url(r'^appeps/despachador/solicitudes','epsapp.views.alldelrequest_disp',name='alldelrequest_disp'),
-    url(r'^appeps/despachador','epsapp.views.dispatcher',name='dispatcher'),
-    url(r'^appeps/error','epsapp.views.exception',name='exception'),
-    url(r'^appeps','epsapp.views.empmain',name='empmain'),
+    url(r'^appeps$','epsapp.views.empmain',name='empmain'),
+    url(r'^appeps/iniciarsesion$','epsapp.views.emplogin',name='emplogin'),
+    url(r'^appeps/cerrarsesion$','epsapp.views.emplogout',name='emplogout'),
+    
+    url(r'^appeps/gerente$','epsapp.views.manager',name='manager'),
+    url(r'^appeps/gerente/solicitudes$','epsapp.views.alldelrequest_man',name='alldelrequest_man'),
+    url(r'^appeps/gerente/solicitudes/(?P<requestid>\d+)$','epsapp.views.requestdetail_man',name='requestdetail_man'),
+    url(r'^appeps/gerente/reportes$','epsapp.views.reports',name='reports'),
+    url(r'^appeps/gerente/eventos$','epsapp.views.logs',name='logs'),
+    
+    url(r'^appeps/despachador$','epsapp.views.dispatcher',name='dispatcher'),
+    url(r'^appeps/despachador/solicitudes$','epsapp.views.alldelrequest_disp',name='alldelrequest_disp'),
+    
+    url(r'^appeps/error$','epsapp.views.exception',name='exception'),
+    
 
     ###---Servicios Web:---###
 

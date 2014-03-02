@@ -1,20 +1,29 @@
-{% extends "usertemplate.html" %}
+{% extends "emptemplate.html" %}
 {% load staticfiles %}
 
-{% block title %}Rastrear{% endblock title %}
 
+{% block title %}Sistema EPS: Gestión de solicitudes{% endblock title %}
+
+{% block role %}
+	Gerente:
+{% endblock role %}
+
+{% block othercss %}
+	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/empcss.css' %}"/>
+{% endblock othercss %}
 
 {% block navbarcontent %}
-	<li class="active"><a href="/home">Inicio</a></li>
-    <li><a href="#">Nosotros</a></li>
-    <li><a href="#">Contacto</a></li>
-    <li><a href="#">Servicios</a></li>
+	<li><a href="/appeps/gerente">Inicio</a></li>
+	<li class="active"><a href="/appeps/gerente/solicitudes">Gestión de Solicitudes</a></li>
+	<li><a href="/appeps/gerente/reportes">Reportes</a></li>
+	<li><a href="/appeps/gerente/eventos">Registro de eventos</a></li>
+	<li><a href="/appeps/cerrarsesion">Cerrar sesión</a></li>
 {% endblock navbarcontent %}
 
 {% block rowscontent %}
 	<div class="row">
 		<div class="col-md-12">
-			{% if deliveryreq %}
+		{% if deliveryreq %}
 			<div class="panel panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title">Solicitud: {{deliveryreq.tracking_number}} - Entrega estimada: {{deliveryreq.delivery_date}}</h3>
@@ -82,5 +91,4 @@
 			{% endif %}
 		</div>
 	</div>
-
 {% endblock rowscontent %}

@@ -101,7 +101,8 @@ class DeliveryRequest(models.Model):
 		verbose_name_plural = 'DeliveryRequests'
 
 	def __unicode__(self):
-		return u'Solicitada: %s - Tracking: %s - A: %s %s' % (
+		return u'%s Solicitada: %s - Tracking: %s - A: %s %s' % (
+			self.id,
 			self.request_date,
 			self.tracking_number,
 			self.route.destination,

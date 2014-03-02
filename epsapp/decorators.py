@@ -18,7 +18,7 @@ def manager_required(view_func):
 			if profile.count() == 1:
 				userprof = profile.first()
 				if requser.is_authenticated() and userprof.role.role_name == 'Gerente':
-					return view_func(request)
+					return view_func(request,*args, **kwargs)
 		messages.error(request,'No tiene permisos para acceder.',extra_tags='danger')
 		referer = request.META.get('HTTP_REFERER')
 		if referer:
@@ -39,7 +39,7 @@ def employee_required(view_func):
 			if profile.count() == 1:
 				userprof = profile.first()
 				if requser.is_authenticated() and (userprof.role.role_name == 'Gerente' or userprof.role.role_name == 'Despachador'):
-					return view_func(request)
+					return view_func(request,*args, **kwargs)
 		messages.error(request,'No tiene permisos para acceder.',extra_tags='danger')
 		referer = request.META.get('HTTP_REFERER')
 		if referer:

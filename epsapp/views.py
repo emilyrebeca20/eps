@@ -86,7 +86,26 @@ def alldelrequest_disp(request):
 	
 @manager_required
 def alldelrequest_man(request):
-	return render(request,'deliveryrequest-man.html')
+	delrequests = DeliveryRequest.objects.all()
+	if delrequests.count() <= 0:
+		messages.warning(request,'No existen solicitudes registradas en el sistema.',extra_tags='warning')
+	return render(request,'deliveryrequest-man.html',{'delrequests':delrequests})
+
+@manager_required
+def requestdetail_man(request,requestid):
+	if request.method == 'GET':
+		if requestid:
+			delivery_req = DeliveryRequest.objects.filter(id=requestid)
+			if delivery_req.count() == 1:
+				return render(request,'deliveryrequest-detail-man.html',{"deliveryreq":delivery_req.first()})
+			else:
+				messages.error(request,'La solicitud requerida no existe.',extra_tags='danger')
+				return render(request,'deliveryrequest-detail-man.html')
+		else:
+			return HttpResponse(status=400)
+	else:
+		return HttpResponse(status=400)
+
 
 @manager_required
 def reports(request):
