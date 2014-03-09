@@ -21,8 +21,198 @@
 {% block rowscontent %}
 	<div class="row">
 		<div class="col-md-12">
-			<div class="bs-callout bs-callout-blue">
-				<h1>Gestión de solicitudes</h1>
+			<div class="bs-callout-small bs-callout-blue">
+				<form class="form-inline" role="form">
+					<div class="form-group">
+					   	<label class="sr-only" for="searchitem">Buscar solicitud:</label>
+					    <input type="text" class="form-control" id="searchitem" placeholder="Número de rastreo" required="True">
+					</div>
+					<button type="submit" class="btn btn-default">Buscar solicitud</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#todas" data-toggle="tab">Todas</a></li>
+				<li><a href="#recibidas" data-toggle="tab">Recibidas</a></li>
+				<li><a href="#pordespachar" data-toggle="tab">Por despachar</a></li>
+				<li><a href="#despachadas" data-toggle="tab">Despachadas</a></li>
+				<li><a href="#entregadas" data-toggle="tab">Entregadas</a></li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane active" id="todas">
+					{% if delrequests %}
+						<table class="table">
+							<tr>
+								<th>Fecha</th>
+								<th>Número de rastreo</th>
+								<th>Estado</th>
+								<th>Dirección</th>
+								<th>Ciudad</th>
+								<th>Código Postal</th>
+								<th>Provincia</th>
+								<th>País</th>
+							</tr>
+							{% for request in delrequests %}
+							<tr>
+								<td>{{request.request_date}}</td>
+								<td>
+									<a href="/appeps/despachador/solicitudes/{{request.id}}">
+									{{request.tracking_number}}
+									</a>
+								</td>
+								{% if request.status_set.last.status == '00' %}
+									<td><span class="label label-default">Recibida</span></td>
+								{% elif request.status_set.last.status == '01' %}
+									<td><span class="label label-info">Por despachar</span></td>
+								{% elif request.status_set.last.status == '02' %}
+									<td><span class="label label-primary">Despachada</span></td>
+								{% elif request.status_set.last.status == '03' %}
+									<td><span class="label label-success">Entregada</span></td>
+								{% endif %}	
+								<td>{{request.address}}</td>
+								<td>{{request.route.destination.city}}</td>
+								<td>{{request.route.destination.zip_code}}</td>
+								<td>{{request.route.destination.state}}</td>
+								<td>{{request.route.destination.country}}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					{% endif %}
+			  	</div>
+			  	<div class="tab-pane" id="recibidas">
+			  		{% if delrequests %}
+						<table class="table">
+							<tr>
+								<th>Fecha</th>
+								<th>Número de rastreo</th>
+								<th>Dirección</th>
+								<th>Ciudad</th>
+								<th>Código Postal</th>
+								<th>Provincia</th>
+								<th>País</th>
+							</tr>
+							{% for request in delrequests %}
+							{% if request.status_set.last.status == '00' %}
+								<tr>
+									<td>{{request.request_date}}</td>
+									<td>
+										<a href="/appeps/despachador/solicitudes/{{request.id}}">
+										{{request.tracking_number}}
+										</a>
+									</td>
+									<td>{{request.address}}</td>
+									<td>{{request.route.destination.city}}</td>
+									<td>{{request.route.destination.zip_code}}</td>
+									<td>{{request.route.destination.state}}</td>
+									<td>{{request.route.destination.country}}</td>
+								</tr>
+							{% endif %}	
+							{% endfor %}
+						</table>
+					{% endif %}
+			  	</div>
+			  	<div class="tab-pane" id="pordespachar">
+			  		{% if delrequests %}
+						<table class="table">
+							<tr>
+								<th>Fecha</th>
+								<th>Número de rastreo</th>
+								<th>Dirección</th>
+								<th>Ciudad</th>
+								<th>Código Postal</th>
+								<th>Provincia</th>
+								<th>País</th>
+							</tr>
+							{% for request in delrequests %}
+							{% if request.status_set.last.status == '01' %}
+								<tr>
+									<td>{{request.request_date}}</td>
+									<td>
+										<a href="/appeps/despachador/solicitudes/{{request.id}}">
+										{{request.tracking_number}}
+										</a>
+									</td>
+									<td>{{request.address}}</td>
+									<td>{{request.route.destination.city}}</td>
+									<td>{{request.route.destination.zip_code}}</td>
+									<td>{{request.route.destination.state}}</td>
+									<td>{{request.route.destination.country}}</td>
+								</tr>
+							{% endif %}	
+							{% endfor %}
+						</table>
+					{% endif %}
+			  	</div>
+			  	<div class="tab-pane" id="despachadas">
+			  		{% if delrequests %}
+						<table class="table">
+							<tr>
+								<th>Fecha</th>
+								<th>Número de rastreo</th>
+								<th>Dirección</th>
+								<th>Ciudad</th>
+								<th>Código Postal</th>
+								<th>Provincia</th>
+								<th>País</th>
+							</tr>
+							{% for request in delrequests %}
+							{% if request.status_set.last.status == '02' %}
+								<tr>
+									<td>{{request.request_date}}</td>
+									<td>
+										<a href="/appeps/despachador/solicitudes/{{request.id}}">
+										{{request.tracking_number}}
+										</a>
+									</td>
+									<td>{{request.address}}</td>
+									<td>{{request.route.destination.city}}</td>
+									<td>{{request.route.destination.zip_code}}</td>
+									<td>{{request.route.destination.state}}</td>
+									<td>{{request.route.destination.country}}</td>
+								</tr>
+							{% endif %}	
+							{% endfor %}
+						</table>
+					{% endif %}
+			  	</div>
+			  	<div class="tab-pane" id="entregadas">
+			  		{% if delrequests %}
+						<table class="table">
+							<tr>
+								<th>Fecha</th>
+								<th>Número de rastreo</th>
+								<th>Dirección</th>
+								<th>Ciudad</th>
+								<th>Código Postal</th>
+								<th>Provincia</th>
+								<th>País</th>
+							</tr>
+							{% for request in delrequests %}
+							{% if request.status_set.last.status == '03' %}
+								<tr>
+									<td>{{request.request_date}}</td>
+									<td>
+										<a href="/appeps/despachador/solicitudes/{{request.id}}">
+										{{request.tracking_number}}
+										</a>
+									</td>
+									<td>{{request.address}}</td>
+									<td>{{request.route.destination.city}}</td>
+									<td>{{request.route.destination.zip_code}}</td>
+									<td>{{request.route.destination.state}}</td>
+									<td>{{request.route.destination.country}}</td>
+								</tr>
+							{% endif %}	
+							{% endfor %}
+						</table>
+					{% endif %}
+			  	</div>
 			</div>
 		</div>
 	</div>

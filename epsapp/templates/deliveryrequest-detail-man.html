@@ -24,8 +24,18 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="bs-callout-small bs-callout-blue">
-			<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
-			<button type="button" class="btn btn-default">Eliminar <span class="glyphicon glyphicon-trash"></button>
+			<a class="btn btn-primary" href="/appeps/gerente/solicitudes/actualizar/{{deliveryreq.id}}" role="button">
+				Actualizar estado 
+				<span class="glyphicon glyphicon-map-marker">
+			</a>
+			<a class="btn btn-primary" href="/appeps/gerente/solicitudes/editar/{{deliveryreq.id}}" role="button">
+				Editar 
+				<span class="glyphicon glyphicon-pencil">
+			</a>
+			<a class="btn btn-primary" href="/appeps/gerente/solicitudes/borrar/{{deliveryreq.id}}" role="button">
+				Eliminar 
+				<span class="glyphicon glyphicon-trash">
+			</a>
 			</div>
 		</div>
 	</div>
@@ -60,8 +70,30 @@
 							<h5><strong>País:</strong> {{deliveryreq.route.destination.country}}</h5>
 						</li>
 						<li class="list-group-item">
+							<h4><span class="label label-primary">Paquetes:</span></h4>
+							<table class="table">
+								<tr>
+									<th>Paquete</th>
+									<th>Peso</th>
+									<th>Ancho</th>
+									<th>Alto</th>
+									<th>Largo</th>
+									<th>Descripción</th>
+								</tr>
+								{% for pack in deliveryreq.package_set.all  %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ pack.weigth }} Kg.</td>
+									<td>{{ pack.width }} Cm. </td>
+									<td>{{ pack.height }} Cm.</td>
+									<td>{{ pack.length }} Cm.</td>
+									<td>{{ pack.description }}</td>
+								</tr>
+								{% endfor %}
+							</table>
+						</li>
+						<li class="list-group-item">
 							<h4><span class="label label-primary">Historial:</span></h4>
-
 							<table class="table">
 								<tr>
 									<th>Fecha</th>

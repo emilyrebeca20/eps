@@ -126,7 +126,7 @@ class Package(models.Model):
 		verbose_name_plural = 'Packages'
 
 	def __unicode__(self):
-		return u'Agregado: %s - Peso: %s - Largo: %s - Ancho: %s - Altp: %s - Solicitud: %s' % (
+		return u'Agregado: %s - Peso: %s - Largo: %s - Ancho: %s - Alto: %s - Solicitud: %s' % (
 			self.added_date,
 			self.weigth,
 			self.length,
