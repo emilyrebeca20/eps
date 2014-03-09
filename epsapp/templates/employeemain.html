@@ -12,13 +12,15 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/empcss.css' %}"/>
 {% endblock othercss %}
 
+
+
 {% block navbarcontent %}
 	<li class="active"><a href="#">Inicio</a></li>
 	<li><a href="/appeps/despachador/solicitudes">Gestión de Solicitudes</a></li>
-	<li><a href="/appeps/cerrarsesion">Cerrar sesión</a></li>
+	<li><a data-toggle="modal" data-target="#exitmodal">Cerrar sesión</a></li>
 {% endblock navbarcontent %}
 
-{% block rowscontent %}
+{% block rowscontent %}	
 	<div class="row">
 		<div class="col-md-12">
 			<div class="bs-callout bs-callout-blue">

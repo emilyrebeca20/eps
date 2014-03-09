@@ -4,6 +4,26 @@
 {% block othercss %}
 {% endblock othercss %}
 
+{% block exitmodal %}
+	<div class="modal fade" id="exitmodal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h4 class="modal-title">Salir del sistema</h4>
+	      </div>
+	      <div class="modal-body">
+	        <p>¿Está seguro que desea cerrar sesión?</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	        <a class="btn btn-primary" href="/appeps/cerrarsesion">Cerrar sesión</a>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+{% endblock exitmodal %}
+
 {% block banner %}
 <div class="container-fluid">
 	<div class="row trans-cont">
