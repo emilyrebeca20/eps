@@ -10,23 +10,145 @@
 
 {% block othercss %}
 	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/empcss.css' %}"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/jquery-ui-1.10.4/themes/base/jquery-ui.css' %}"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/jquery-ui-timepicker-addon.css' %}"/>
 {% endblock othercss %}
+
+{% block headscripts %}
+
+	<script src="{% static 'assets/jquery-ui-1.10.4/ui/jquery-ui.js' %}"></script>
+	<script src="{% static 'assets/js/jquery-ui-timepicker-addon.js' %}"></script>
+	<script src="{% static 'assets/jquery-ui-1.10.4/ui/i18n/jquery.ui.datepicker-es.js' %}"></script>
+	<script>
+	  $(function() {
+	    $( "#idateinterval" ).datepicker({
+	      changeMonth: true,
+	      changeYear: true,
+	      controlType: 'select',
+	      showButtonPanel: true
+	    });
+	    $( "#idateinterval" ).datepicker( "option",$.datepicker.regional["es"]);
+	    $( "#itimeinterval" ).datetimepicker({
+	      timeFormat: 'HH:mm:ss',
+	      changeMonth: true,
+	      changeYear: true,
+	      controlType: 'select',
+	      timeOnly: true,
+	      timeOnlyTitle: 'Elija una hora',
+	      timeText: 'Horario',
+	      hourText: 'Hora',
+	      minuteText: 'Minutos',
+	      secondText: 'Segundos',
+	      currentText: 'Ahora',
+	      closeText: 'Cerrar'
+	    });
+	   	$( "#edateinterval" ).datepicker({
+	      changeMonth: true,
+	      changeYear: true,
+	      controlType: 'select',
+	      showButtonPanel: true
+	    });
+	    $( "#edateinterval" ).datepicker( "option",$.datepicker.regional["es"]);
+	    $( "#etimeinterval" ).datetimepicker({
+	      timeFormat: 'HH:mm:ss',
+	      changeMonth: true,
+	      changeYear: true,
+	      controlType: 'select',
+	      timeOnly: true,
+	      timeOnlyTitle: 'Elija una hora',
+	      timeText: 'Horario',
+	      hourText: 'Hora',
+	      minuteText: 'Minutos',
+	      secondText: 'Segundos',
+	      currentText: 'Ahora',
+	      closeText: 'Cerrar'
+	    });
+	  });
+  	</script>
+{% endblock headscripts %}
 
 {% block navbarcontent %}
 	<li><a href="/appeps/gerente">Inicio</a></li>
 	<li><a href="/appeps/gerente/solicitudes">Gestión de Solicitudes</a></li>
 	<li><a href="/appeps/gerente/reportes">Reportes</a></li>
 	<li><a href="/appeps/gerente/rutas">Rutas</a></li>
-	<li class="active"><a href="#">Registro de eventos</a></li>
+	<li class="active"><a href="/appeps/gerente/eventos">Registro de eventos</a></li>
 	<li><a data-toggle="modal" data-target="#exitmodal">Cerrar sesión</a></li>
 {% endblock navbarcontent %}
 
 {% block rowscontent %}
 	<div class="row">
 		<div class="col-md-12">
-			<div class="bs-callout bs-callout-blue">
-				<h1>Registro de eventos</h1>
+			<div class="bs-callout-small bs-callout-blue">
+				<form class="form-inline" role="form" method="GET" action="/appeps/gerente/eventos/filtrar">
+					<div class="form-group">
+					   	<label class="sr-only" for="idateinterval">Fecha inicio:</label>
+					    <input type="datetime" class="form-control" id="idateinterval" name="idateinterval" placeholder="Fecha inicio" required="True">
+					</div>
+					<div class="form-group">
+					   	<label class="sr-only" for="itimeinterval">Hora inicio:</label>
+					    <input type="datetime" class="form-control" id="itimeinterval" name="itimeinterval" placeholder="Hora inicio" required="True">
+					</div>
+					<div class="form-group">
+					   	<label class="sr-only" for="edateinterval">Fecha fin:</label>
+					    <input type="datetime" class="form-control" id="edateinterval" name="edateinterval" placeholder="Fecha fin" required="True">
+					</div>
+					<div class="form-group">
+					   	<label class="sr-only" for="etimeinterval">Hora fin:</label>
+					    <input type="datetime" class="form-control" id="etimeinterval" name="etimeinterval" placeholder="Hora fin" required="True">
+					</div>
+					<div class="form-group">
+					   	<label class="sr-only" for="entrytype">Buscar solicitud:</label>
+					    <select name="entrytype" id="entrytype" class="form-control" required="True">
+						  <option value="ERR">Error</option> 
+						  <option value="REQ">Solicitud</option>
+						  <option value="EMP">Empleado</option>
+						  <option value="PAY">Pago</option> 
+						  <option value="GEN">General</option>
+						  <option value="ALL" selected>Todos los tipos</option>
+						</select>
+					</div>
+					<button type="submit" class="btn btn-primary">
+						Filtrar
+						<span class="glyphicon glyphicon-filter">
+					</button>
+					<a class="btn btn-primary" href="/appeps/gerente/eventos" role="button">
+						Todas 
+						<span class="glyphicon glyphicon-asterisk">
+					</a>
+				</form>
+				
 			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			{% if logentrys %}
+			<table class="table">
+				<tr>
+					<th>Fecha</th>
+					<th>Tipo de evento</th>
+					<th>Descripción</th>
+				</tr>
+				{% for lg in logentrys %}
+				<tr>
+					<td>{{lg.event_date}}</td>
+					{% if lg.event_type == 'ERR' %}
+						<td><span class="label label-danger">Error</span></td>
+					{% elif lg.event_type == 'REQ' %}
+						<td><span class="label label-primary">Solicitud</span></td>
+					{% elif lg.event_type == 'EMP' %}
+						<td><span class="label label-primary">Empleado</span></td>
+					{% elif lg.event_type == 'PAY' %}
+						<td><span class="label label-primary">Pago</span></td>
+					{% elif lg.event_type == 'GEN' %}
+						<td><span class="label label-info">General</span></td>
+					{% endif %}	
+					<td>{{lg.event_desc}}</td>
+				</tr>
+				{% endfor %}
+			</table>
+			{% endif %}
 		</div>
 	</div>
 {% endblock rowscontent %}

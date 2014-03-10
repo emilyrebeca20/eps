@@ -213,7 +213,7 @@ class LogEntry(models.Model):
 	"""docstring for LogEntry"""
 
 	event_date = models.DateTimeField(auto_now_add=True,verbose_name=u'Marca de tiempo')
-	LOGEVENT_TYPE = (('ERR','Error'),('REQ','Solicitud'),('EMP','Employee'),('PAY','Pago'),('GEN','General')) 
+	LOGEVENT_TYPE = (('ERR','Error'),('REQ','Solicitud'),('EMP','Empleado'),('PAY','Pago'),('GEN','General')) 
 	event_type = models.CharField(choices=LOGEVENT_TYPE,max_length=50,verbose_name=u'Tipo de evento')
 	event_desc = models.TextField(verbose_name=u'Descripcion')
 

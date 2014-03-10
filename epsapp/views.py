@@ -24,8 +24,7 @@ def tracking(request):
 			trackingnum = params['trackingn']
 			delivery_req = DeliveryRequest.objects.filter(tracking_number=trackingnum)
 			if delivery_req.count() == 1:
-				#delivery_req_json = serializers.serialize("json", [delivery_req.first(),],use_natural_keys=True)
-				return render(request,'trackinginfo.html',{"deliveryreq":delivery_req.first()})
+				return render(request,'trackinginfo.html',{'deliveryreq':delivery_req.first()})
 			else:
 				messages.error(request,'La solicitud requerida no existe.',extra_tags='danger')
 				return render(request,'trackinginfo.html')
@@ -38,7 +37,7 @@ def empmain(request):
 	return render(request,'empmain.html')
 
 def emplogin(request):
-	#print "Hola"
+	#print 'Hola'
 	if request.method == 'POST':
 		params = request.POST
 		if 'username' in params and 'password' in params:
@@ -63,7 +62,6 @@ def emplogin(request):
 					messages.error(request,'Esta cuenta ha sido deshabilitada.',extra_tags='danger')
 					return HttpResponseRedirect('/appeps')
 			else:
-				# the authentication system was unable to verify the username and password
 				messages.error(request,'El nombre de usuario y/o contraseña es incorrecto.',extra_tags='danger')
 				return HttpResponseRedirect('/appeps')
 		else:
@@ -100,7 +98,7 @@ def requestdetail_disp(request,requestid):
 		if requestid:
 			delivery_req = DeliveryRequest.objects.filter(id=requestid)
 			if delivery_req.count() == 1:
-				return render(request,'deliveryrequest-detail-disp.html',{"deliveryreq":delivery_req.first()})
+				return render(request,'deliveryrequest-detail-disp.html',{'deliveryreq':delivery_req.first()})
 			else:
 				messages.error(request,'La solicitud requerida no existe.',extra_tags='danger')
 				return render(request,'deliveryrequest-detail-disp.html')
@@ -115,7 +113,7 @@ def requestdetail_man(request,requestid):
 		if requestid:
 			delivery_req = DeliveryRequest.objects.filter(id=requestid)
 			if delivery_req.count() == 1:
-				return render(request,'deliveryrequest-detail-man.html',{"deliveryreq":delivery_req.first()})
+				return render(request,'deliveryrequest-detail-man.html',{'deliveryreq':delivery_req.first()})
 			else:
 				messages.error(request,'La solicitud requerida no existe.',extra_tags='danger')
 				return render(request,'deliveryrequest-detail-man.html')
@@ -155,9 +153,9 @@ def searchreq(request):
 			delivery_req = DeliveryRequest.objects.filter(tracking_number=trackingnum)
 			if delivery_req.count() == 1:	
 				if userprof.role.role_name == 'Gerente':
-					return render(request,'deliveryrequest-detail-man.html',{"deliveryreq":delivery_req.first()})
+					return render(request,'deliveryrequest-detail-man.html',{'deliveryreq':delivery_req.first()})
 				elif userprof.role.role_name == 'Despachador':
-					return render(request,'deliveryrequest-detail-disp.html',{"deliveryreq":delivery_req.first()})
+					return render(request,'deliveryrequest-detail-disp.html',{'deliveryreq':delivery_req.first()})
 				else:
 					return HttpResponse(status=400)
 			else:
@@ -184,8 +182,34 @@ def reports(request):
 
 @manager_required
 def logs(request):
-	return render(request,'logs-man.html')
+	logentrys = LogEntry.objects.all()
+	return render(request,'logs-man.html',{'logentrys':logentrys})
 
+@manager_required
+def filterlog(request):
+	if request.method == 'GET':
+		params = request.GET
+		if 'idateinterval' in params and 'itimeinterval' in params and 'edateinterval' in params and 'etimeinterval' in params and 'entrytype' in params:
+			idateinterval = params['idateinterval']
+			itimeinterval = params['itimeinterval']
+			edateinterval = params['edateinterval']
+			etimeinterval = params['etimeinterval']
+			entrytype = params['entrytype']
+			initi = idateinterval + ' ' + itimeinterval
+			endi = edateinterval + ' ' + etimeinterval
+			finiti = datetime.strptime(initi,'%d/%m/%Y %H:%M:%S')
+			fendi = datetime.strptime(endi,'%d/%m/%Y %H:%M:%S')
+			if entrytype == 'ALL':
+				logentrys = LogEntry.objects.filter(event_date__range=(finiti,fendi))
+			else:
+				logentrys = LogEntry.objects.filter(event_date__range=(finiti,fendi)).filter(event_type=entrytype)
+			return render(request,'logs-man.html',{'logentrys':logentrys})
+		else:
+			return HttpResponse(status=400)
+	else:
+		return HttpResponse(status=400)
+
+@employee_required
 def emplogout(request):
 	logout(request)
 	messages.success(request,'Cierre de sesión exitoso.',extra_tags='success')
