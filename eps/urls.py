@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^appeps/gerente/solicitudes/borrar/(?P<requestid>\d+)$','epsapp.views.deletereq',name='deletereq'),
     url(r'^appeps/gerente/buscar$','epsapp.views.searchreq',name='searchreq'),
     url(r'^appeps/gerente/reportes$','epsapp.views.reports',name='reports'),
+    url(r'^appeps/gerente/rutas$','epsapp.views.routes',name='routes'),
     url(r'^appeps/gerente/eventos$','epsapp.views.logs',name='logs'),
     
     url(r'^appeps/despachador$','epsapp.views.dispatcher',name='dispatcher'),

@@ -175,6 +175,10 @@ def searchreq(request):
 		return HttpResponse(status=400)
 
 @manager_required
+def routes(request):
+	return render(request,'routes-man.html')
+
+@manager_required
 def reports(request):
 	return render(request,'reports-man.html')
 
