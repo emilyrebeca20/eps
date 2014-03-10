@@ -30,7 +30,6 @@ def manager_required(view_func):
 def employee_required(view_func): 
 	def _wrapped_view_func(request, *args, **kwargs):
 		requser = request.user 
-		#print requser.id
 		userobjs = User.objects.filter(id=requser.id)
 		if userobjs.count() == 1:
 			userobj = userobjs.first()

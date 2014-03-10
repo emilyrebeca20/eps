@@ -141,6 +141,39 @@ def deletereq(request,requestid):
 	else:
 		return HttpResponse(status=400)
 
+@employee_required
+def searchreq(request):
+	if request.method == 'GET':
+		requser = request.user 
+		userobjs = User.objects.filter(id=requser.id)
+		userobj = userobjs.first()
+		profile = Employee.objects.filter(user=userobj)
+		userprof = profile.first()
+		params = request.GET 
+		if 'searchitem' in params:
+			trackingnum = params['searchitem']
+			delivery_req = DeliveryRequest.objects.filter(tracking_number=trackingnum)
+			if delivery_req.count() == 1:	
+				if userprof.role.role_name == 'Gerente':
+					return render(request,'deliveryrequest-detail-man.html',{"deliveryreq":delivery_req.first()})
+				elif userprof.role.role_name == 'Despachador':
+					return render(request,'deliveryrequest-detail-disp.html',{"deliveryreq":delivery_req.first()})
+				else:
+					return HttpResponse(status=400)
+			else:
+				if userprof.role.role_name == 'Gerente':
+					messages.error(request,'La solicitud requerida no existe.',extra_tags='danger')
+					return render(request,'deliveryrequest-detail-man.html')
+				elif userprof.role.role_name == 'Despachador':
+					messages.error(request,'La solicitud requerida no existe.',extra_tags='danger')
+					return render(request,'deliveryrequest-detail-disp.html')
+				else:
+					return HttpResponse(status=400)
+		else:
+			return HttpResponse(status=400)
+	else:
+		return HttpResponse(status=400)
+
 @manager_required
 def reports(request):
 	return render(request,'reports-man.html')

@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^appeps/gerente/solicitudes$','epsapp.views.alldelrequest_man',name='alldelrequest_man'),
     url(r'^appeps/gerente/solicitudes/(?P<requestid>\d+)$','epsapp.views.requestdetail_man',name='requestdetail_man'),
     url(r'^appeps/gerente/solicitudes/borrar/(?P<requestid>\d+)$','epsapp.views.deletereq',name='deletereq'),
+    url(r'^appeps/gerente/buscar$','epsapp.views.searchreq',name='searchreq'),
     url(r'^appeps/gerente/reportes$','epsapp.views.reports',name='reports'),
     url(r'^appeps/gerente/eventos$','epsapp.views.logs',name='logs'),
     
@@ -28,6 +29,7 @@ urlpatterns = patterns('',
     url(r'^appeps/despachador/solicitudes$','epsapp.views.alldelrequest_disp',name='alldelrequest_disp'),
     url(r'^appeps/despachador/solicitudes/(?P<requestid>\d+)$','epsapp.views.requestdetail_disp',name='requestdetail_disp'),
     url(r'^appeps/despachador/solicitudes/borrar/(?P<requestid>\d+)$','epsapp.views.deletereq',name='deletereq'),
+    url(r'^appeps/despachador/buscar$','epsapp.views.searchreq',name='searchreq'),
     
     url(r'^appeps/error$','epsapp.views.exception',name='exception'),
     

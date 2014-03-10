@@ -21,6 +21,7 @@ Despachador:
 {% block rowscontent %}
 	<div class="row">
 		<div class="col-md-12">
+			{% if deliveryreq %}
 			<div class="bs-callout-small bs-callout-blue">
 			<a class="btn btn-primary" href="/appeps/despachador/solicitudes/actualizar/{{deliveryreq.id}}" role="button">
 				Actualizar estado 
@@ -35,6 +36,7 @@ Despachador:
 				<span class="glyphicon glyphicon-trash">
 			</a>
 			</div>
+			{% endif %}
 		</div>
 	</div>
 	<div class="row">

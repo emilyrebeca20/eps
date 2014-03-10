@@ -24,10 +24,10 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="bs-callout-small bs-callout-blue">
-				<form class="form-inline" role="form">
+				<form class="form-inline" role="form" method="GET" action="/appeps/gerente/buscar">
 					<div class="form-group">
 					   	<label class="sr-only" for="searchitem">Buscar solicitud:</label>
-					    <input type="text" class="form-control" id="searchitem" placeholder="Número de rastreo" required="True">
+					    <input type="text" class="form-control" id="searchitem" name="searchitem" placeholder="Número de rastreo" required="True">
 					</div>
 					<button type="submit" class="btn btn-default">Buscar solicitud</button>
 				</form>
@@ -51,7 +51,7 @@
 					{% if delrequests %}
 						<table class="table">
 							<tr>
-								<th>Fecha</th>
+								<th>Fecha de solicitud</th>
 								<th>Número de rastreo</th>
 								<th>Estado</th>
 								<th>Dirección</th>
