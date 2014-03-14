@@ -209,7 +209,6 @@ def filterlog(request):
 	else:
 		return HttpResponse(status=400)
 
-@employee_required
 def emplogout(request):
 	logout(request)
 	messages.success(request,'Cierre de sesión exitoso.',extra_tags='success')
@@ -217,3 +216,22 @@ def emplogout(request):
 
 def exception(request):
 	render(request,'errtemplate.html')
+
+#Cruds
+
+@employee_required
+def deletelogentry(request,logentryid):
+	if request.method == 'GET':
+		if logentryid:
+			logentry = LogEntry.objects.filter(id=logentryid)
+			if logentry.count() == 1:
+				logentry.first().delete()
+				messages.success(request,'La entrada del registro ha sido eliminada.',extra_tags='success')
+				return HttpResponseRedirect('/appeps/gerente/eventos')
+			else:
+				messages.error(request,'El registro solicitado no existe.',extra_tags='danger')
+				return render(request,'errtemplate.html')
+		else:
+			return HttpResponse(status=400)
+	else:
+		return HttpResponse(status=400)

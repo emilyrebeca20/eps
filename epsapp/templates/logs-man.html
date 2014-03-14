@@ -20,6 +20,14 @@
 	<script src="{% static 'assets/js/jquery-ui-timepicker-addon.js' %}"></script>
 	<script src="{% static 'assets/jquery-ui-1.10.4/ui/i18n/jquery.ui.datepicker-es.js' %}"></script>
 	<script>
+	$( document ).ready(function() {
+    	$(".deletelgbutton").click(function() {
+			var id = $(this).attr("id");
+			var link = "/appeps/gerente/eventos/borrar/";
+			var clink = link.concat(id);
+			//console.log(clink);
+			$("#deletelglink").attr("href",clink);
+		});
 	  $(function() {
 	    $( "#idateinterval" ).datepicker({
 	      changeMonth: true,
@@ -64,6 +72,8 @@
 	      closeText: 'Cerrar'
 	    });
 	  });
+	});
+		
   	</script>
 {% endblock headscripts %}
 
@@ -75,6 +85,26 @@
 	<li class="active"><a href="/appeps/gerente/eventos">Registro de eventos</a></li>
 	<li><a data-toggle="modal" data-target="#exitmodal">Cerrar sesión</a></li>
 {% endblock navbarcontent %}
+
+{% block modal1 %}
+	<div class="modal fade" id="deletemodal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h4 class="modal-title">Eliminar solicitud</h4>
+	      </div>
+	      <div class="modal-body">
+	        <p>¿Está seguro que desea eliminar la solicitud?</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	        <a id="deletelglink" class="btn btn-primary" >Eliminar</a>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+{% endblock modal1 %}
 
 {% block rowscontent %}
 	<div class="row">
@@ -129,6 +159,7 @@
 					<th>Fecha</th>
 					<th>Tipo de evento</th>
 					<th>Descripción</th>
+					<th></th>
 				</tr>
 				{% for lg in logentrys %}
 				<tr>
@@ -145,6 +176,12 @@
 						<td><span class="label label-info">General</span></td>
 					{% endif %}	
 					<td>{{lg.event_desc}}</td>
+					<td>
+						<a class="btn btn-primary deletelgbutton" data-toggle="modal" data-target="#deletemodal" role="button" id="{{lg.id}}">
+						<!--"/appeps/gerente/eventos/borrar/{{lg.id}}"-->
+						<span class="glyphicon glyphicon-trash">
+						</a>
+					</td>
 				</tr>
 				{% endfor %}
 			</table>

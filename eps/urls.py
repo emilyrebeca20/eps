@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     url(r'^appeps/gerente/rutas$','epsapp.views.routes',name='routes'),
     url(r'^appeps/gerente/eventos$','epsapp.views.logs',name='logs'),
     url(r'^appeps/gerente/eventos/filtrar$','epsapp.views.filterlog',name='filterlog'),
+    url(r'^appeps/gerente/eventos/borrar/(?P<logentryid>\d+)$','epsapp.views.deletelogentry',name='deletelogentry'),
 
     
     url(r'^appeps/despachador$','epsapp.views.dispatcher',name='dispatcher'),
