@@ -8,6 +8,8 @@ from django.core import serializers
 from django.contrib import messages
 from django.contrib.auth import *
 from django.template import RequestContext,Context
+from django.views.decorators.csrf import csrf_exempt
+import xml.etree.ElementTree as ET
 
 
 # Create your views here.
@@ -235,3 +237,22 @@ def deletelogentry(request,logentryid):
 			return HttpResponse(status=400)
 	else:
 		return HttpResponse(status=400)
+
+#------------------------------------------------------------------Servicios Web---------------------------------------------------------#
+@csrf_exempt
+def wsnewrequest(request):
+	if request.method == 'POST':
+		conttype = request.META['CONTENT_TYPE']
+		if conttype == 'application/xml':
+			xmlrequest = request.body
+			root = ET.fromstring(xmlrequest)
+			print root.tag
+			for child in root:
+				print child.tag, child.text
+			return HttpResponse(status=200)
+		else:
+			return HttpResponse(status=400)
+	else:
+		return HttpResponse(status=400)
+
+
