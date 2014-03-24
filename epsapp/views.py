@@ -9,7 +9,11 @@ from django.contrib import messages
 from django.contrib.auth import *
 from django.template import RequestContext,Context
 from django.views.decorators.csrf import csrf_exempt
-import xml.etree.ElementTree as ET
+from lxml import etree
+import StringIO
+import random
+from datetime import timedelta, date, datetime
+from django.utils.timezone import *
 
 
 # Create your views here.
@@ -18,7 +22,7 @@ import xml.etree.ElementTree as ET
 def home(request):
 	return render(request,'home.html')
 
-
+#Consulta de solicitud por numero de rastreo
 def tracking(request):
 	if request.method == 'GET':
 		params = request.GET 
@@ -35,9 +39,11 @@ def tracking(request):
 	else:
 		return HttpResponse(status=400)
 
+#Pantalla principal de empleados
 def empmain(request):
 	return render(request,'empmain.html')
 
+#Inicio de sesion de empleados
 def emplogin(request):
 	#print 'Hola'
 	if request.method == 'POST':
@@ -50,6 +56,13 @@ def emplogin(request):
 					if profile.count() == 1:
 						login(request,user)
 						messages.success(request,'Inicio de sesión exitoso.',extra_tags='success')
+						
+						mssg = u'El empleado ' + user.first_name + ' ' + user.last_name + u' ha iniciado sesión en el sistema.'
+						newlogentry = LogEntry(
+							event_type='EMP',
+							event_desc=mssg)
+						newlogentry.save()
+
 						if profile.first().role.role_name == 'Gerente':
 							return HttpResponseRedirect('/appeps/gerente')
 						elif profile.first().role.role_name == 'Despachador':
@@ -72,21 +85,25 @@ def emplogin(request):
 	else:
 		return HttpResponse(status=400)
 
+#Pantalla principal del gerente
 @manager_required
 def manager(request):
 	return render(request,'managermain.html')
 
+#Pantalla principal del despachador
 @employee_required
 def dispatcher(request):
 	return render(request,'employeemain.html')
 
+#Todas las solicitudes de envio (despachador)
 @employee_required
 def alldelrequest_disp(request):
 	delrequests = DeliveryRequest.objects.all()
 	if delrequests.count() <= 0:
 		messages.warning(request,'No existen solicitudes registradas en el sistema.',extra_tags='warning')
 	return render(request,'deliveryrequest-disp.html',{'delrequests':delrequests})
-	
+
+#Todas las solicitudes de envio (gerente)
 @manager_required
 def alldelrequest_man(request):
 	delrequests = DeliveryRequest.objects.all()
@@ -94,6 +111,7 @@ def alldelrequest_man(request):
 		messages.warning(request,'No existen solicitudes registradas en el sistema.',extra_tags='warning')
 	return render(request,'deliveryrequest-man.html',{'delrequests':delrequests})
 
+#Detalle de solicitud de envio (despachador)
 @employee_required
 def requestdetail_disp(request,requestid):
 	if request.method == 'GET':
@@ -109,6 +127,7 @@ def requestdetail_disp(request,requestid):
 	else:
 		return HttpResponse(status=400)
 
+#Detalle de solicitud de envio (gerente)
 @manager_required
 def requestdetail_man(request,requestid):
 	if request.method == 'GET':
@@ -124,6 +143,7 @@ def requestdetail_man(request,requestid):
 	else:
 		return HttpResponse(status=400)
 
+#Eliminar una solicitud de envio
 @employee_required
 def deletereq(request,requestid):
 	if request.method == 'GET':
@@ -141,6 +161,7 @@ def deletereq(request,requestid):
 	else:
 		return HttpResponse(status=400)
 
+#Buscar una solicitud de envio por numero de rastreo
 @employee_required
 def searchreq(request):
 	if request.method == 'GET':
@@ -174,19 +195,23 @@ def searchreq(request):
 	else:
 		return HttpResponse(status=400)
 
+#Listado de rutas
 @manager_required
 def routes(request):
 	return render(request,'routes-man.html')
 
+#Reportes
 @manager_required
 def reports(request):
 	return render(request,'reports-man.html')
 
+#Registro de eventos
 @manager_required
 def logs(request):
 	logentrys = LogEntry.objects.all()
 	return render(request,'logs-man.html',{'logentrys':logentrys})
 
+#Filtrado del registro de eventos
 @manager_required
 def filterlog(request):
 	if request.method == 'GET':
@@ -211,17 +236,31 @@ def filterlog(request):
 	else:
 		return HttpResponse(status=400)
 
+#Cierre de sesion
 def emplogout(request):
+	user = request.user
+	first_name = user.first_name
+	last_name = user.last_name
 	logout(request)
 	messages.success(request,'Cierre de sesión exitoso.',extra_tags='success')
+
+	
+	mssg = u'El empleado ' + first_name + ' ' + last_name + u' ha cerrado sesión en el sistema.'
+	newlogentry = LogEntry(
+		event_type='EMP',
+		event_desc=mssg)
+	newlogentry.save()
+
 	return HttpResponseRedirect('/appeps')
 
+#Excepciones
 def exception(request):
 	render(request,'errtemplate.html')
 
 #Cruds
 
-@employee_required
+#Eliminar una entrada del registro
+@manager_required
 def deletelogentry(request,logentryid):
 	if request.method == 'GET':
 		if logentryid:
@@ -239,17 +278,133 @@ def deletelogentry(request,logentryid):
 		return HttpResponse(status=400)
 
 #------------------------------------------------------------------Servicios Web---------------------------------------------------------#
+#Comercio genera una solicitud en el sistema
 @csrf_exempt
 def wsnewrequest(request):
 	if request.method == 'POST':
 		conttype = request.META['CONTENT_TYPE']
 		if conttype == 'application/xml':
 			xmlrequest = request.body
-			root = ET.fromstring(xmlrequest)
-			print root.tag
-			for child in root:
-				print child.tag, child.text
-			return HttpResponse(status=200)
+			dtdstring = StringIO.StringIO('<!ELEMENT despacho (id,comercio,productos,datosEnvio)><!ELEMENT id (#PCDATA)><!ELEMENT comercio (rif,nombre)><!ELEMENT rif (#PCDATA)><!ELEMENT nombre (#PCDATA)><!ELEMENT productos (producto+)><!ELEMENT producto (id,nombre,cantidad,medidas)><!ELEMENT id (#PCDATA)><!ELEMENT nombre (#PCDATA)><!ELEMENT cantidad (#PCDATA)><!ELEMENT medidas (peso,largo,ancho,alto)><!ELEMENT peso (#PCDATA)><!ELEMENT largo (#PCDATA)><!ELEMENT ancho (#PCDATA)><!ELEMENT alto (#PCDATA)><!ELEMENT datosEnvio (nombreDestinatario,telefonos,direccion,zip,ciudad,pais)><!ELEMENT nombreDestinatario (#PCDATA)><!ELEMENT telefonos (telefonoContacto+)><!ELEMENT telefonoContacto (#PCDATA)><!ELEMENT direccion (#PCDATA)><!ELEMENT zip (#PCDATA)><!ELEMENT ciudad (#PCDATA)><!ELEMENT pais (#PCDATA)>')
+			dtd = etree.DTD(dtdstring)
+			root = etree.XML(xmlrequest)
+			if dtd.validate(root):
+				associated = root[1]
+				#print associated[0].text + ' ' + associated[1].text
+				assoc_found = Associated.objects.filter(rif=associated[0].text,assoc_name=associated[1].text)
+				if assoc_found.count() == 1:
+					associated_comm = assoc_found.first()
+					delcity = root[3][4].text
+					delcountry = root[3][5].text
+					delzip = root[3][3].text
+					#Ruta destino
+					locfound = Location.objects.filter(city=delcity,country=delcountry,zip_code=delzip)
+					if locfound.count():
+						location = locfound.first()
+					else:
+						location = Location(city=delcity,state=delcity,country=delcountry,zip_code=delzip)
+						location.save()
+					routefound = Route.objects.filter(destination=location)
+					if routefound.count():
+						route = routefound.first()
+					else:
+						route = Route(destination=location,charge_x_km=random.randrange(10,100,5))
+						route.save()
+
+					#Solicitud de envio
+					dllist = DeliveryRequest.objects.order_by('id')
+					lastdl = dllist[dllist.count()-1]
+					number = 10000 + lastdl.id + 1
+					tracking_number = (delcountry[0] + delcountry[1]).upper() + delzip.upper() + str(number)
+					#print tracking_number
+
+					daystodel = random.randrange(1,5,1)
+					delivery_date = (datetime.utcnow()+timedelta(days=daystodel)).replace(tzinfo=utc)
+					#print daystodel
+					#print delivery_date
+
+					address = root[3][2].text
+
+					additional_info = 'Destinatario: ' + root[3][0].text + '\n'
+					for telephone in root[3][1]:
+						additional_info = additional_info + 'Teléfono: ' + telephone.text + '\n'
+					#print additional_info
+
+					newdelrequest = DeliveryRequest(
+					tracking_number=tracking_number,
+					delivery_date=delivery_date,
+					address=address,
+					additional_info=additional_info,
+					route=route,
+					associated_comm=associated_comm)	
+					newdelrequest.save()
+
+					locationfound = Location.objects.filter(
+						city='Distribución',
+						state='Distribución',
+						country='Distribución',
+						zip_code='Distribución')
+					if locationfound.count():
+						location = locationfound.first()
+					else:
+						location = Location(city='Distribución',state='Distribución',country='Distribución',zip_code='Distribución')
+						location.save()
+
+					#Estado de solicitud de envio
+					newstatus = Status(
+					status='00',
+					location=location,
+					delrequest=newdelrequest)
+					newstatus.save()
+
+					sub_total = 0
+					#Paquetes vinculados a la solicitud
+					for product in root[2]:
+						description = product[1].text
+						amount = product[2].text
+						weigth = product[3][0].text
+						length = product[3][1].text
+						width = product[3][2].text
+						height = product[3][3].text
+						newpackage = Package(
+							weigth=weigth,
+							length=length,
+							width=width,
+							height=height,
+							description=description,
+							delivery_req=newdelrequest)
+						print description
+						newpackage.save()
+						sub_total = sub_total + (((float(length)*float(width)*float(height))/166)*route.charge_x_km)
+
+					#Factura vinculada a la solicitud
+					taxes = sub_total*0.12
+					total = sub_total + taxes
+
+					newbill = Bill(
+						sub_total=sub_total,
+						taxes=taxes,
+						total=total,
+						payment_status='00',
+						request=newdelrequest)
+					newbill.save()
+					
+					#Registrar evento
+					mssg = u'El comercio ' + associated_comm.assoc_name + u' ha generado una solicitud de envío en el sistema.'
+					newlogentry = LogEntry(
+						event_type='REQ',
+						event_desc=mssg)
+					newlogentry.save()
+
+					#Construir respuesta
+
+					return HttpResponse(status=200)
+				else:
+					print 'El comercio no se encuentra registrado'
+					return HttpResponse(status=400)
+			else:
+				print 'No pase la validacion contra DTD'
+				return HttpResponse(status=400)
 		else:
 			return HttpResponse(status=400)
 	else:
