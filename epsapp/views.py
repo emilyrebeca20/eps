@@ -14,6 +14,8 @@ import StringIO
 import random
 from datetime import timedelta, date, datetime
 from django.utils.timezone import *
+from pytz import timezone
+import pytz
 
 
 # Create your views here.
@@ -397,8 +399,33 @@ def wsnewrequest(request):
 					newlogentry.save()
 
 					#Construir respuesta
+					print delivery_date
+					#delivery_date_local = delivery_date.replace(tzinfo=get_current_timezone())
+					delivery_date_local = delivery_date.astimezone(timezone('America/Caracas'))
+					print daystodel
+					print delivery_date_local
 
-					return HttpResponse(status=200)
+					if newstatus.status == '00':
+						stat = 'Recibido'
+					elif newstatus.status == '01':
+						stat = 'Por despachar'
+					elif newstatus.status == '02':
+						stat = 'Despachada'
+					elif newstatus.status == '03':
+						stat = 'Entregada'
+
+					answer = etree.SubElement(root, 'respuesta')
+					etree.SubElement(answer,'costo').text = str(total)
+					etree.SubElement(answer,'fechaEntrega').text = str(delivery_date_local.strftime('%d-%m-%Y %H:%M'))
+					etree.SubElement(answer,'tracking').text = str(tracking_number)
+					etree.SubElement(answer,'estado').text = str(stat)
+					#print etree.tostring(root, pretty_print=True)
+
+					dtdstring = StringIO.StringIO('<!ELEMENT despacho (id,comercio,productos,datosEnvio,respuesta)><!ELEMENT id (#PCDATA)><!ELEMENT comercio (rif,nombre)><!ELEMENT rif (#PCDATA)><!ELEMENT nombre (#PCDATA)><!ELEMENT productos (producto+)><!ELEMENT producto (id,nombre,cantidad,medidas)><!ELEMENT id (#PCDATA)><!ELEMENT nombre (#PCDATA)><!ELEMENT cantidad (#PCDATA)><!ELEMENT medidas (peso,largo,ancho,alto)><!ELEMENT peso (#PCDATA)><!ELEMENT largo (#PCDATA)><!ELEMENT ancho (#PCDATA)><!ELEMENT alto (#PCDATA)><!ELEMENT datosEnvio (nombreDestinatario,telefonos,direccion,zip,ciudad,pais)><!ELEMENT nombreDestinatario (#PCDATA)><!ELEMENT telefonos (telefonoContacto+)><!ELEMENT telefonoContacto (#PCDATA)><!ELEMENT direccion (#PCDATA)><!ELEMENT zip (#PCDATA)><!ELEMENT ciudad (#PCDATA)><!ELEMENT pais (#PCDATA)><!ELEMENT respuesta (costo,fechaEntrega,tracking,estado)><!ELEMENT costo (#PCDATA)><!ELEMENT fechaEntrega (#PCDATA)><!ELEMENT tracking (#PCDATA)><!ELEMENT estado (#PCDATA)>')
+					dtd = etree.DTD(dtdstring)
+					#print dtd.validate(root)
+
+					return HttpResponse(etree.tostring(root, pretty_print=True),content_type='application/xml')
 				else:
 					print 'El comercio no se encuentra registrado'
 					return HttpResponse(status=400)
