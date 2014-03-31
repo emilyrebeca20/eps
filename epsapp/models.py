@@ -115,19 +115,22 @@ class Package(models.Model):
 	"""docstring for Package"""
 
 	added_date = models.DateTimeField(auto_now_add=True,verbose_name=u'Agregado')
+	amount = models.IntegerField(verbose_name=u'Cantidad')
 	weigth = models.FloatField(verbose_name=u'Peso')
 	length = models.FloatField(verbose_name=u'Largo')
 	width = models.FloatField(verbose_name=u'Ancho')
 	height = models.FloatField(verbose_name=u'Alto')
 	description = models.TextField(blank=True,verbose_name=u'Descripcion')
 	delivery_req = models.ForeignKey(DeliveryRequest,verbose_name=u'Solicitud')
+	price = models.FloatField(verbose_name=u'Precio')
 
 	class Meta:
 		verbose_name = 'Package'
 		verbose_name_plural = 'Packages'
 
 	def __unicode__(self):
-		return u'Agregado: %s - Peso: %s - Largo: %s - Ancho: %s - Alto: %s - Solicitud: %s' % (
+		return u'Cant %s - Agregado: %s - Peso: %s - Largo: %s - Ancho: %s - Alto: %s - Solicitud: %s' % (
+			self.amount,
 			self.added_date,
 			self.weigth,
 			self.length,
@@ -161,7 +164,7 @@ class Bill(models.Model):
 		verbose_name_plural = 'Bills'
 
 	def __unicode__(self):
-		return u'%s - Comercio: %s - Generada: %s - Sub-total %s + Impuestos %s = Total %s - %s - Pagada el: %s - Se vence: %s' % (
+		return u'%s - Comercio: %s - Generada: %s - Sub-total %s + Impuestos %s = Total %s - %s - Pagada el: %s - Se vence: %s - Pagar en: %s' % (
 			self.request.tracking_number,
 			self.request.associated_comm,
 			self.issuance_date,
@@ -169,7 +172,8 @@ class Bill(models.Model):
 			self.taxes,self.total,
 			self.payment_status,
 			self.payment_date,
-			self.expiration_date)
+			self.expiration_date,
+			self.account_number)
 
 	def save(self,*args,**kwargs):
 		if not self.id:

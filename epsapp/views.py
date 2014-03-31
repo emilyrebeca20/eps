@@ -293,6 +293,10 @@ def deletelogentry(request,logentryid):
 
 #------------------------------------------------------------------Servicios Web---------------------------------------------------------#
 #Comercio genera una solicitud en el sistema
+
+#Enviar factura a comercio
+#Enviar factura a banco
+#Problema con el id repetido en el xml factura
 @csrf_exempt
 def wsnewrequest(request):
 	if request.method == 'POST':
@@ -375,27 +379,36 @@ def wsnewrequest(request):
 					#Paquetes vinculados a la solicitud
 					for product in root[2]:
 						description = product[1].text
-						amount = product[2].text
+						amount =int(product[2].text)
 						weigth = product[3][0].text
 						length = product[3][1].text
 						width = product[3][2].text
 						height = product[3][3].text
+						price = (((float(length)*float(width)*float(height))/166)*route.charge_x_km)
 						newpackage = Package(
+							amount=amount,
 							weigth=weigth,
 							length=length,
 							width=width,
 							height=height,
 							description=description,
-							delivery_req=newdelrequest)
-						print description
+							delivery_req=newdelrequest,
+							price=price)
+						#print description
 						newpackage.save()
-						sub_total = sub_total + (((float(length)*float(width)*float(height))/166)*route.charge_x_km)
+						sub_total = sub_total + amount*price
 
 					#Factura vinculada a la solicitud
 					taxes = sub_total*0.12
 					total = sub_total + taxes
+					banklist = Account.objects.all()
+					totalacc = banklist.count()
+					selectb = int(random.randrange(0,totalacc-1,1))
+					print selectb
+					account_number = banklist[selectb].account_number
 
 					newbill = Bill(
+						account_number=account_number,
 						sub_total=sub_total,
 						taxes=taxes,
 						total=total,
