@@ -12,6 +12,7 @@ class Associated(models.Model):
 	added = models.DateTimeField(verbose_name=u'Asociado en')
 	rif = models.CharField(unique=True,max_length=50,verbose_name=u'RIF')
 	assoc_name = models.CharField(max_length=100,verbose_name=u'Comercio')
+	bill_webservice = models.URLField(verbose_name=u'URL del webservice')
 
 	class Meta:
 		verbose_name = 'Associated'
@@ -160,7 +161,8 @@ class Bill(models.Model):
 		verbose_name_plural = 'Bills'
 
 	def __unicode__(self):
-		return u'Comercio: %s - Generada: %s - Sub-total %s + Impuestos %s = Total %s - %s - Pagada el: %s - Se vence: %s' % (
+		return u'%s - Comercio: %s - Generada: %s - Sub-total %s + Impuestos %s = Total %s - %s - Pagada el: %s - Se vence: %s' % (
+			self.request.tracking_number,
 			self.request.associated_comm,
 			self.issuance_date,
 			self.sub_total,

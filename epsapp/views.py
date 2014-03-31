@@ -152,8 +152,21 @@ def deletereq(request,requestid):
 		if requestid:
 			delivery_req = DeliveryRequest.objects.filter(id=requestid)
 			if delivery_req.count() == 1:
+				user = request.user
+				first_name = user.first_name
+				last_name = user.last_name
+
+				tracking_number = delivery_req.first().tracking_number
 				delivery_req.first().delete()
 				messages.success(request,'La solicitud ha sido eliminada.',extra_tags='success')
+				
+				#Registrar evento	
+				mssg = u'El empleado ' + user.first_name + ' ' + user.last_name + u' ha eliminado la solicitud.' + ' ' + tracking_number
+				newlogentry = LogEntry(
+					event_type='REQ',
+					event_desc=mssg)
+				newlogentry.save()
+
 				return HttpResponseRedirect('/appeps/gerente/solicitudes')
 			else:
 				messages.error(request,'La solicitud requerida no existe.',extra_tags='danger')
@@ -246,7 +259,6 @@ def emplogout(request):
 	logout(request)
 	messages.success(request,'Cierre de sesión exitoso.',extra_tags='success')
 
-	
 	mssg = u'El empleado ' + first_name + ' ' + last_name + u' ha cerrado sesión en el sistema.'
 	newlogentry = LogEntry(
 		event_type='EMP',
@@ -437,4 +449,32 @@ def wsnewrequest(request):
 	else:
 		return HttpResponse(status=400)
 
-
+def wsdetailrequest(request,requestid):
+	delrequestlist = DeliveryRequest.objects.filter(tracking_number=requestid)
+	if delrequestlist.count():
+		delrequest = delrequestlist.first()
+		requestbill = delrequest.bill  #try catch excepcion
+		requeststatuslist = delrequest.status_set
+		if requeststatuslist.count():
+			requeststatus = requeststatuslist.first()
+			if requeststatus.status == '00':
+				stat = 'Recibido'
+			elif requeststatus.status == '01':
+				stat = 'Por despachar'
+			elif requeststatus.status == '02':
+				stat = 'Despachada'
+			elif requeststatus.status == '03':
+				stat = 'Entregada'
+			root = etree.Element('despacho')
+			answer = etree.SubElement(root, 'respuesta')
+			etree.SubElement(answer,'costo').text = str(requestbill.total)
+			etree.SubElement(answer,'fechaEntrega').text = str(
+			(delrequest.delivery_date.astimezone(timezone('America/Caracas'))).strftime('%d-%m-%Y %H:%M'))
+			etree.SubElement(answer,'tracking').text = str(delrequest.tracking_number)
+			etree.SubElement(answer,'estado').text = str(stat)
+			delrequestxml = etree.tostring(root, pretty_print=True)
+			return HttpResponse(delrequestxml,content_type='application/xml')
+		else:
+			HttpResponse(status=400)
+	else:
+		return HttpResponse('No existe la solicitud.',content_type='text/plain')
