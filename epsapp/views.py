@@ -292,6 +292,72 @@ def deletelogentry(request,logentryid):
 		return HttpResponse(status=400)
 
 #------------------------------------------------------------------Servicios Web---------------------------------------------------------#
+#Genera un xml a partir de la factura
+def xmlbill(delreq):
+	try:
+		delreqbill = Bill.objects.get(request=delreq)
+	except Bill.DoesNotExist:
+		print 'No existe la factura o la solicitud de envio'
+	except MultipleObjectsReturned:
+		print 'Existen varias facturas que coiniciden con la solicitud de envio'
+	else:
+		#print 'Factura: ' + str(delreqbill)
+		factura = etree.Element('factura')
+		etree.SubElement(factura,'idFactura').text = str(delreqbill.pk)
+		actores = etree.SubElement(factura,'actores')
+		emisor = etree.SubElement(actores,'emisor')
+		etree.SubElement(emisor,'rifEmisor').text = str(delreqbill.dist_rif)
+		etree.SubElement(emisor,'nombreEmisor').text = str(delreqbill.dist_name)
+		etree.SubElement(emisor,'cuenta').text = str(delreqbill.account_number)
+		pagador = etree.SubElement(actores,'pagador')
+		etree.SubElement(pagador,'rifPagador').text = str(delreq.associated_comm.rif)
+		etree.SubElement(pagador,'nombrePagador').text = str(delreq.associated_comm.assoc_name)
+		despachos = etree.SubElement(factura,'despachos')
+		despacho = etree.SubElement(despachos,'despacho')
+		productos = etree.SubElement(despacho,'productos')
+		packagelist = delreq.package_set.all()
+		for packageunit in packagelist:
+			producto = etree.SubElement(productos,'producto')
+			etree.SubElement(producto,'id').text = str(packageunit.pk)
+			etree.SubElement(producto,'nombre').text = str(packageunit.description)
+			etree.SubElement(producto,'cantidad').text = str(packageunit.amount)
+			medidas = etree.SubElement(producto,'medidas')
+			etree.SubElement(medidas,'peso').text = str(packageunit.weigth)
+			etree.SubElement(medidas,'largo').text = str(packageunit.length)
+			etree.SubElement(medidas,'ancho').text = str(packageunit.width)
+			etree.SubElement(medidas,'alto').text = str(packageunit.height)
+			#print packageunit
+		etree.SubElement(despacho,'tracking').text = str(delreq.tracking_number)
+		etree.SubElement(despacho,'costo').text = str(delreqbill.total)
+		costos = etree.SubElement(factura,'costos')
+		etree.SubElement(costos,'subtotal').text = str(delreqbill.sub_total)
+		etree.SubElement(costos,'impuestos').text = str(delreqbill.taxes)
+		etree.SubElement(costos,'total').text = str(delreqbill.total)
+
+		fechas = etree.SubElement(factura,'fechas')
+		etree.SubElement(fechas,'fechaEmision').text = str(delreqbill.issuance_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M'))
+		etree.SubElement(fechas,'fechaVencimiento').text = str(delreqbill.expiration_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M'))
+		if delreqbill.payment_date:
+			paymentdate = delreqbill.payment_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M')
+		else:
+			paymentdate = delreqbill.payment_date
+		etree.SubElement(fechas,'fechaPago').text = str(paymentdate)
+
+		statuses = etree.SubElement(factura,'statuses')
+		statuslist = delreq.status_set.all()
+		for statusunit in statuslist:
+			date = statusunit.status_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M')
+			if statusunit.status == '00':
+				stat = 'Recibido'
+			elif statusunit.status == '01':
+				stat = 'Por despachar'
+			elif statusunit.status == '02':
+				stat = 'Despachada'
+			elif statusunit.status == '03':
+				stat = 'Entregada'
+			etree.SubElement(statuses,'status').text = date + ' ' + stat
+		return etree.tostring(factura, pretty_print=True)
+
 #Comercio genera una solicitud en el sistema
 
 #Enviar factura a comercio
@@ -426,7 +492,7 @@ def wsnewrequest(request):
 					#Construir respuesta
 					print delivery_date
 					#delivery_date_local = delivery_date.replace(tzinfo=get_current_timezone())
-					delivery_date_local = delivery_date.astimezone(timezone('America/Caracas'))
+					delivery_date_local = delivery_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M')
 					print daystodel
 					print delivery_date_local
 
@@ -478,15 +544,20 @@ def wsdetailrequest(request,requestid):
 				stat = 'Despachada'
 			elif requeststatus.status == '03':
 				stat = 'Entregada'
-			root = etree.Element('despacho')
-			answer = etree.SubElement(root, 'respuesta')
+			
+			#root = etree.XML('\\<?xml version="1.0"?>')
+			#main = etree.ElementTree(root)
+			dispatch = etree.Element('despacho')
+			answer = etree.SubElement(dispatch, 'respuesta')
 			etree.SubElement(answer,'costo').text = str(requestbill.total)
 			etree.SubElement(answer,'fechaEntrega').text = str(
 			(delrequest.delivery_date.astimezone(timezone('America/Caracas'))).strftime('%d-%m-%Y %H:%M'))
 			etree.SubElement(answer,'tracking').text = str(delrequest.tracking_number)
 			etree.SubElement(answer,'estado').text = str(stat)
-			delrequestxml = etree.tostring(root, pretty_print=True)
+			delrequestxml = etree.tostring(dispatch, pretty_print=True)
+			
 			return HttpResponse(delrequestxml,content_type='application/xml')
+			#return HttpResponse(xmlbill(delrequest),content_type='application/xml')
 		else:
 			HttpResponse(status=400)
 	else:
