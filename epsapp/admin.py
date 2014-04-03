@@ -3,6 +3,10 @@ from models import *
 
 # Register your models here.
 
+class DistributorAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Distributor, DistributorAdmin)
+
 class AssociatedAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Associated, AssociatedAdmin)

@@ -5,6 +5,22 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+#Modelo Distribuidor para almacenar informacion
+class Distributor(models.Model):
+	"""docstring for Distributor"""
+	
+	rif = models.CharField(unique=True,max_length=50,verbose_name=u'RIF')
+	dist_name = models.CharField(max_length=100,verbose_name=u'Distribuidor')
+
+	class Meta:
+		verbose_name = 'Distributor'
+		verbose_name_plural = 'Distributors'
+
+	def __unicode__(self):
+		return u'%s - RIF: %s' % (
+			self.dist_name,
+			self.rif)
+		
 #Modelo Comercio
 class Associated(models.Model): 
 	"""docstring for Associated"""
@@ -21,7 +37,8 @@ class Associated(models.Model):
 	def __unicode__(self):
 		return u'%s - Anadido: %s - RIF: %s' % (
 			self.assoc_name,
-			self.added,self.rif)
+			self.added,
+			self.rif)
 
 	def natural_key(self):
 		return (self.added,self.rif,self.assoc_name)

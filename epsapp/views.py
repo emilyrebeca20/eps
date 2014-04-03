@@ -16,6 +16,8 @@ from datetime import timedelta, date, datetime
 from django.utils.timezone import *
 from pytz import timezone
 import pytz
+from django.db import transaction
+import requests
 
 
 # Create your views here.
@@ -293,14 +295,15 @@ def deletelogentry(request,logentryid):
 
 #------------------------------------------------------------------Servicios Web---------------------------------------------------------#
 #Genera un xml a partir de la factura
-def xmlbill(delreq):
+def xmlbill(billreq):
 	try:
-		delreqbill = Bill.objects.get(request=delreq)
+		delreqbill = Bill.objects.get(pk=billreq)
 	except Bill.DoesNotExist:
 		print 'No existe la factura o la solicitud de envio'
 	except MultipleObjectsReturned:
 		print 'Existen varias facturas que coiniciden con la solicitud de envio'
 	else:
+		delreq = delreqbill.request
 		#print 'Factura: ' + str(delreqbill)
 		factura = etree.Element('factura')
 		etree.SubElement(factura,'idFactura').text = str(delreqbill.pk)
@@ -363,6 +366,7 @@ def xmlbill(delreq):
 #Enviar factura a comercio
 #Enviar factura a banco
 #Problema con el id repetido en el xml factura
+#@transaction.atomic
 @csrf_exempt
 def wsnewrequest(request):
 	if request.method == 'POST':
@@ -465,15 +469,21 @@ def wsnewrequest(request):
 						sub_total = sub_total + amount*price
 
 					#Factura vinculada a la solicitud
+					dist = Distributor.objects.all().first()
+					dist_rif = dist.rif
+					dist_name = dist.dist_name
 					taxes = sub_total*0.12
 					total = sub_total + taxes
 					banklist = Account.objects.all()
 					totalacc = banklist.count()
 					selectb = int(random.randrange(0,totalacc-1,1))
-					print selectb
-					account_number = banklist[selectb].account_number
+					#print selectb
+					bank = banklist[selectb]
+					account_number = bank.account_number
 
 					newbill = Bill(
+						dist_rif=dist_rif,
+						dist_name=dist_name,
 						account_number=account_number,
 						sub_total=sub_total,
 						taxes=taxes,
@@ -507,7 +517,7 @@ def wsnewrequest(request):
 
 					answer = etree.SubElement(root, 'respuesta')
 					etree.SubElement(answer,'costo').text = str(total)
-					etree.SubElement(answer,'fechaEntrega').text = str(delivery_date_local.strftime('%d-%m-%Y %H:%M'))
+					etree.SubElement(answer,'fechaEntrega').text = str(delivery_date_local)
 					etree.SubElement(answer,'tracking').text = str(tracking_number)
 					etree.SubElement(answer,'estado').text = str(stat)
 					#print etree.tostring(root, pretty_print=True)
@@ -515,6 +525,18 @@ def wsnewrequest(request):
 					dtdstring = StringIO.StringIO('<!ELEMENT despacho (id,comercio,productos,datosEnvio,respuesta)><!ELEMENT id (#PCDATA)><!ELEMENT comercio (rif,nombre)><!ELEMENT rif (#PCDATA)><!ELEMENT nombre (#PCDATA)><!ELEMENT productos (producto+)><!ELEMENT producto (id,nombre,cantidad,medidas)><!ELEMENT id (#PCDATA)><!ELEMENT nombre (#PCDATA)><!ELEMENT cantidad (#PCDATA)><!ELEMENT medidas (peso,largo,ancho,alto)><!ELEMENT peso (#PCDATA)><!ELEMENT largo (#PCDATA)><!ELEMENT ancho (#PCDATA)><!ELEMENT alto (#PCDATA)><!ELEMENT datosEnvio (nombreDestinatario,telefonos,direccion,zip,ciudad,pais)><!ELEMENT nombreDestinatario (#PCDATA)><!ELEMENT telefonos (telefonoContacto+)><!ELEMENT telefonoContacto (#PCDATA)><!ELEMENT direccion (#PCDATA)><!ELEMENT zip (#PCDATA)><!ELEMENT ciudad (#PCDATA)><!ELEMENT pais (#PCDATA)><!ELEMENT respuesta (costo,fechaEntrega,tracking,estado)><!ELEMENT costo (#PCDATA)><!ELEMENT fechaEntrega (#PCDATA)><!ELEMENT tracking (#PCDATA)><!ELEMENT estado (#PCDATA)>')
 					dtd = etree.DTD(dtdstring)
 					#print dtd.validate(root)
+
+					#Enviar factura a comercio
+					reqbody = xmlbill(newbill.pk) 
+					urlassc = associated_comm.bill_webservice
+					#print urlassc
+					ra = requests.post(urlassc,data=reqbody,headers={'content-type':'application/xml'})
+					
+					#Enviar factura a banco
+					urlbank = bank.bill_webservice
+					#print urlbank
+					rb = requests.post(urlbank,data=reqbody,headers={'content-type':'application/xml'})
+					
 
 					return HttpResponse(etree.tostring(root, pretty_print=True),content_type='application/xml')
 				else:
@@ -562,3 +584,9 @@ def wsdetailrequest(request,requestid):
 			HttpResponse(status=400)
 	else:
 		return HttpResponse('No existe la solicitud.',content_type='text/plain')
+
+def wsdetailbill(request,billid):
+	reqbody = xmlbill(billid) 
+	url = 'http://127.0.0.1:4567/comercio1/factura'
+	r = requests.post(url,data=reqbody,headers={'content-type':'application/xml'})
+	return HttpResponse(reqbody,content_type='application/xml') 

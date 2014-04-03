@@ -51,7 +51,7 @@ urlpatterns = patterns('',
 
     url(r'^wseps/solicitud$','epsapp.views.wsnewrequest',name='wsnewrequest'),                                             #Crear solicitud
     url(r'^wseps/solicitud/(?P<requestid>VE\d+)$','epsapp.views.wsdetailrequest',name='wsdetailrequest'),                     #Una solicitud
-
+    url(r'^wseps/factura/(?P<billid>\d+)$','epsapp.views.wsdetailbill',name='wsdetailbill'),                     #Una factura
 
     ###---Administracion:---###
     url(r'^admin/', include(admin.site.urls)),
