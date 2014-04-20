@@ -41,7 +41,7 @@ urlpatterns = patterns('',
     url(r'^appeps/despachador/solicitudes$','epsapp.views.alldelrequest_disp',name='alldelrequest_disp'),                   #Todas las solicitudes
     url(r'^appeps/despachador/solicitudes/(?P<requestid>\d+)$','epsapp.views.requestdetail_disp',name='requestdetail_disp'),#Una solicitud
     url(r'^appeps/despachador/solicitudes/borrar/(?P<requestid>\d+)$','epsapp.views.deletereq',name='deletereq'),           #Eliminar solicitud
-    #url(r'^appeps/despachador/solicitudes/actualizar/(?P<requestid>\d+)$','epsapp.views.updatereq_disp',name='updatereq_disp'), #Actualizar solicitud
+    url(r'^appeps/despachador/solicitudes/actualizar/(?P<requestid>\d+)$','epsapp.views.updatereq_disp',name='updatereq_disp'), #Actualizar solicitud
     url(r'^appeps/despachador/buscar$','epsapp.views.searchreq',name='searchreq'),                                          #Buscar solicitud
     
 

@@ -180,8 +180,36 @@ def updatereq_man(request,requestid):
 		messages.error(request,'La solicitud requerida no existe.',extra_tags='danger')
 		return render(request,'deliveryrequest-update-man.html')
 
+@employee_required
+def updatereq_disp(request,requestid):
+	delivery_req = DeliveryRequest.objects.filter(id=requestid)
+	if delivery_req.count() == 1:
+		if request.method == 'POST': # If the form has been submitted...
+			form = UpdateStatusForm(request.POST) # A form bound to the POST data
+			if form.is_valid(): # All validation rules pass
+				# Process the data in form.cleaned_data
+				# ...
+				status = form.cleaned_data['status']
+				location = form.cleaned_data['location']
+				newstatus = Status(
+					status=status,
+					location=location,
+					delrequest=delivery_req.first())
+				newstatus.save()
 
-	#return HttpResponse(str(requestid),content_type='text/plain')
+				messages.success(request,'La solicitud ha sido actualizada exitosamente.',extra_tags='success')
+				return HttpResponseRedirect('/appeps/despachador/solicitudes/'+str(requestid))
+		else:
+			form = UpdateStatusForm() # An unbound form
+
+		return render(request,'deliveryrequest-update-disp.html', {
+			'form': form,
+			#'requestid':requestid,
+			'deliveryreq':delivery_req.first(),
+		})
+	else:
+		messages.error(request,'La solicitud requerida no existe.',extra_tags='danger')
+		return render(request,'deliveryrequest-update-disp.html')
 
 #Eliminar una solicitud de envio
 @employee_required
@@ -290,6 +318,7 @@ def filterlog(request):
 		return HttpResponse(status=400)
 
 #Cierre de sesion
+@employee_required
 def emplogout(request):
 	user = request.user
 	first_name = user.first_name
