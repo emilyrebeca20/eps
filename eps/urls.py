@@ -24,6 +24,7 @@ urlpatterns = patterns('',
     url(r'^appeps/gerente/solicitudes$','epsapp.views.alldelrequest_man',name='alldelrequest_man'),                         #Todas las solicitudes
     url(r'^appeps/gerente/solicitudes/(?P<requestid>\d+)$','epsapp.views.requestdetail_man',name='requestdetail_man'),      #Una solicitud
     url(r'^appeps/gerente/solicitudes/borrar/(?P<requestid>\d+)$','epsapp.views.deletereq',name='deletereq'),               #Borrar solicitud
+    url(r'^appeps/gerente/solicitudes/actualizar/(?P<requestid>\d+)$','epsapp.views.updatereq_man',name='updatereq_man'),   #Actualizar solicitud
     
     url(r'^appeps/gerente/buscar$','epsapp.views.searchreq',name='searchreq'),                                              #Buscar solicitud
     
@@ -40,8 +41,10 @@ urlpatterns = patterns('',
     url(r'^appeps/despachador/solicitudes$','epsapp.views.alldelrequest_disp',name='alldelrequest_disp'),                   #Todas las solicitudes
     url(r'^appeps/despachador/solicitudes/(?P<requestid>\d+)$','epsapp.views.requestdetail_disp',name='requestdetail_disp'),#Una solicitud
     url(r'^appeps/despachador/solicitudes/borrar/(?P<requestid>\d+)$','epsapp.views.deletereq',name='deletereq'),           #Eliminar solicitud
+    #url(r'^appeps/despachador/solicitudes/actualizar/(?P<requestid>\d+)$','epsapp.views.updatereq_disp',name='updatereq_disp'), #Actualizar solicitud
     url(r'^appeps/despachador/buscar$','epsapp.views.searchreq',name='searchreq'),                                          #Buscar solicitud
     
+
     ###------------------------------------------------------Otros--------------------------------------###
 
     url(r'^appeps/error$','epsapp.views.exception',name='exception'),                                                       #Excepcion o error

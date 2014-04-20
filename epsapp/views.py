@@ -4,6 +4,7 @@ from django.http import *
 from datetime import *
 from epsapp.models import *
 from epsapp.decorators import *
+from epsapp.forms import *
 from django.core import serializers
 from django.contrib import messages
 from django.contrib.auth import *
@@ -146,6 +147,41 @@ def requestdetail_man(request,requestid):
 			return HttpResponse(status=400)
 	else:
 		return HttpResponse(status=400)
+
+#Actualizar el estado de una solicitud de envío
+@manager_required
+def updatereq_man(request,requestid):
+	delivery_req = DeliveryRequest.objects.filter(id=requestid)
+	if delivery_req.count() == 1:
+		if request.method == 'POST': # If the form has been submitted...
+			form = UpdateStatusForm(request.POST) # A form bound to the POST data
+			if form.is_valid(): # All validation rules pass
+				# Process the data in form.cleaned_data
+				# ...
+				status = form.cleaned_data['status']
+				location = form.cleaned_data['location']
+				newstatus = Status(
+					status=status,
+					location=location,
+					delrequest=delivery_req.first())
+				newstatus.save()
+
+				messages.success(request,'La solicitud ha sido actualizada exitosamente.',extra_tags='success')
+				return HttpResponseRedirect('/appeps/gerente/solicitudes/'+str(requestid))
+		else:
+			form = UpdateStatusForm() # An unbound form
+
+		return render(request,'deliveryrequest-update-man.html', {
+			'form': form,
+			#'requestid':requestid,
+			'deliveryreq':delivery_req.first(),
+		})
+	else:
+		messages.error(request,'La solicitud requerida no existe.',extra_tags='danger')
+		return render(request,'deliveryrequest-update-man.html')
+
+
+	#return HttpResponse(str(requestid),content_type='text/plain')
 
 #Eliminar una solicitud de envio
 @employee_required

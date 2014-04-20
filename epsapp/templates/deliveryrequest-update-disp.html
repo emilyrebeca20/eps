@@ -5,7 +5,7 @@
 {% block title %}Sistema EPS: Gestión de solicitudes{% endblock title %}
 
 {% block role %}
-	Gerente:
+Despachador:
 {% endblock role %}
 
 {% block othercss %}
@@ -13,11 +13,8 @@
 {% endblock othercss %}
 
 {% block navbarcontent %}
-	<li><a href="/appeps/gerente">Inicio</a></li>
-	<li class="active"><a href="/appeps/gerente/solicitudes">Gestión de Solicitudes</a></li>
-	<li><a href="/appeps/gerente/reportes">Reportes</a></li>
-	<li><a href="/appeps/gerente/rutas">Rutas</a></li>
-	<li><a href="/appeps/gerente/eventos">Registro de eventos</a></li>
+	<li><a href="/appeps/despachador">Inicio</a></li>
+	<li class="active"><a href="/appeps/despachador/solicitudes">Gestión de Solicitudes</a></li>
 	<li><a data-toggle="modal" data-target="#exitmodal">Cerrar sesión</a></li>
 {% endblock navbarcontent %}
 
@@ -34,7 +31,7 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-	        <a class="btn btn-primary" href="/appeps/gerente/solicitudes/borrar/{{deliveryreq.id}}">Eliminar</a>
+	        <a class="btn btn-primary" href="/appeps/despachador/solicitudes/borrar/{{deliveryreq.id}}">Eliminar</a>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -46,11 +43,11 @@
 		<div class="col-md-12">
 			{% if deliveryreq %}
 			<div class="bs-callout-small bs-callout-blue">
-			<a class="btn btn-primary" href="/appeps/gerente/solicitudes/actualizar/{{deliveryreq.id}}" role="button">
+			<a class="btn btn-primary" href="/appeps/despachador/solicitudes/actualizar/{{deliveryreq.id}}" role="button">
 				Actualizar estado 
 				<span class="glyphicon glyphicon-map-marker">
 			</a>
-			<a class="btn btn-primary" href="/appeps/gerente/solicitudes/editar/{{deliveryreq.id}}" role="button">
+			<a class="btn btn-primary" href="/appeps/despachador/solicitudes/editar/{{deliveryreq.id}}" role="button">
 				Editar 
 				<span class="glyphicon glyphicon-pencil">
 			</a>
