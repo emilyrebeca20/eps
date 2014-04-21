@@ -1,0 +1,111 @@
+{% extends "emptemplate.html" %}
+{% load staticfiles %}
+
+
+{% block title %}Sistema EPS: Gerente{% endblock title %}
+
+{% block role %}
+	Gerente:
+{% endblock role %}
+
+{% block othercss %}
+	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/empcss.css' %}"/>
+{% endblock othercss %}
+
+{% block navbarcontent %}
+	<li><a href="/appeps/gerente">Inicio</a></li>
+	<li><a href="/appeps/gerente/solicitudes">Gestión de Solicitudes</a></li>
+	<li class="active"><a href="/appeps/gerente/facturas">Facturas</a></li>
+	<li><a href="/appeps/gerente/reportes">Reportes</a></li>
+	<li><a href="/appeps/gerente/rutas">Rutas</a></li>
+	<li><a href="/appeps/gerente/eventos">Registro de eventos</a></li>
+	<li><a data-toggle="modal" data-target="#exitmodal">Cerrar sesión</a></li>
+{% endblock navbarcontent %}
+
+{% block rowscontent %}
+	<div class="row">
+		<div class="col-md-12">
+		{% if bill %}
+			<div class="panel panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Factura de solicitud: 
+						<a href="/appeps/gerente/solicitudes/{{bill.request.id}}">
+							{{bill.request.tracking_number}}
+						</a>
+					</h3>
+				</div>
+				<div class="panel-body">
+			    	<ul class="list-group">
+			    		<li class="list-group-item">
+			    			<h4><span class="label label-primary">Fecha de emisión:</span></h4>
+			    			<h5><strong> {{bill.issuance_date}} </strong></h5>
+			    		</li>
+			    		<li class="list-group-item">
+			    			<h4><span class="label label-primary">Fecha de vencimiento:</span></h4>
+			    			<h5><strong> {{bill.expiration_date}} </strong></h5>
+			    		</li>
+			    		<li class="list-group-item">
+							<h4><span class="label label-primary">Estado:</span>
+							{% if bill.payment_status == '00' %}
+								<span class="label label-info">Vigente</span>
+							{% elif bill.payment_status == '01' %}
+								<span class="label label-success">Cancelada</span>
+							{% elif bill.payment_status == '02' %}
+								<span class="label label-danger">Vencida</span>
+							{% elif bill.payment_status == '03' %}
+								<span class="label label-warning">Cancelada después de fecha</span>
+							{% endif %}	
+							</h4>
+						</li>
+						<li class="list-group-item">
+							<h4><span class="label label-primary">Datos del emisor:</span></h4>
+							<h5><strong>Nombre:</strong> {{bill.dist_name}}</h5>
+							<h5><strong>RIF:</strong> {{bill.dist_rif}}</h5>
+							<h5><strong>Número de cuenta:</strong> {{bill.account_number}}</h5>
+						</li>
+						<li class="list-group-item">
+							<h4><span class="label label-primary">Datos del pagador:</span></h4>
+							<h5><strong>Nombre:</strong> {{bill.request.associated_comm.assoc_name}}</h5>
+							<h5><strong>RIF:</strong> {{bill.request.associated_comm.rif}}</h5>
+						</li>
+						<li class="list-group-item">
+							<h4><span class="label label-primary">Detalles de pago:</span></h4>
+							<table class="table">
+								<tr>
+									<th>Paquete</th>
+									<th>Peso</th>
+									<th>Ancho</th>
+									<th>Alto</th>
+									<th>Largo</th>
+									<th>Descripción</th>
+									<th>Precio</th>
+								</tr>
+								{% for pack in bill.request.package_set.all  %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ pack.weigth }} Kg.</td>
+									<td>{{ pack.width }} Cm. </td>
+									<td>{{ pack.height }} Cm.</td>
+									<td>{{ pack.length }} Cm.</td>
+									<td>{{ pack.description }}</td>
+									<td>{{ pack.price }} Bs F.</td>
+								</tr>
+								{% endfor %}
+							</table>
+							<h5><strong>Sub-total:</strong> {{bill.sub_total}} Bs F.</h5>
+							<h5><strong>Impuestos:</strong> {{bill.taxes}} Bs F.</h5>
+							<h5><strong>Total:</strong> {{bill.total}} Bs F.</h5>
+						</li>
+						{% if bill.payment_date %}
+						<li class="list-group-item">
+			    			<h4><span class="label label-primary">Pagada el:</span></h4>
+			    			<h5><strong> {{bill.payment_date}} </strong></h5>
+			    		</li>
+			    		{% endif %}
+					</ul>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock rowscontent %}

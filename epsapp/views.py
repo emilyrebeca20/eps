@@ -276,6 +276,34 @@ def searchreq(request):
 	else:
 		return HttpResponse(status=400)
 
+#Lista de facturas
+@manager_required
+def bills(request):
+	if request.method == 'GET':
+		bills = Bill.objects.all()
+		if bills.count() <= 0:
+			messages.warning(request,'No existen facturas registradas en el sistema.',extra_tags='warning')
+		return render(request,'bills-man.html',{'bills':bills})
+	else:
+		return HttpResponse(status=400)
+
+#Detalle de factura
+@manager_required
+def billdetail(request,billid):
+	if request.method == 'GET':
+		if billid:
+			bills = Bill.objects.filter(id=billid)
+			if bills.count() == 1:
+				bill = bills.first()
+				return render(request,'bills-detail-man.html',{'bill':bill})
+			else:
+				messages.error(request,'La factura requerida no existe.',extra_tags='danger')
+				return render(request,'bills-detail-man.html')
+		else:
+			return HttpResponse(status=400)
+	else:
+		return HttpResponse(status=400)
+
 #Listado de rutas
 @manager_required
 def routes(request):

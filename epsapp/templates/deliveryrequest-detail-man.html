@@ -15,6 +15,7 @@
 {% block navbarcontent %}
 	<li><a href="/appeps/gerente">Inicio</a></li>
 	<li class="active"><a href="/appeps/gerente/solicitudes">Gestión de Solicitudes</a></li>
+	<li><a href="/appeps/gerente/facturas">Facturas</a></li>
 	<li><a href="/appeps/gerente/reportes">Reportes</a></li>
 	<li><a href="/appeps/gerente/rutas">Rutas</a></li>
 	<li><a href="/appeps/gerente/eventos">Registro de eventos</a></li>
@@ -53,6 +54,10 @@
 			<a class="btn btn-primary" href="/appeps/gerente/solicitudes/editar/{{deliveryreq.id}}" role="button">
 				Editar 
 				<span class="glyphicon glyphicon-pencil">
+			</a>
+			<a class="btn btn-primary" href="/appeps/gerente/facturas/{{deliveryreq.bill.id}}" role="button">
+				Ir a Factura
+				<span class="glyphicon glyphicon-list-alt">
 			</a>
 			<a class="btn btn-primary" data-toggle="modal" data-target="#deletemodal" role="button">
 				Eliminar 

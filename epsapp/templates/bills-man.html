@@ -1,0 +1,173 @@
+{% extends "emptemplate.html" %}
+{% load staticfiles %}
+
+
+{% block title %}Sistema EPS: Gerente{% endblock title %}
+
+{% block role %}
+	Gerente:
+{% endblock role %}
+
+{% block othercss %}
+	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/empcss.css' %}"/>
+{% endblock othercss %}
+
+{% block navbarcontent %}
+	<li><a href="/appeps/gerente">Inicio</a></li>
+	<li><a href="/appeps/gerente/solicitudes">Gestión de Solicitudes</a></li>
+	<li class="active"><a href="/appeps/gerente/facturas">Facturas</a></li>
+	<li><a href="/appeps/gerente/reportes">Reportes</a></li>
+	<li><a href="/appeps/gerente/rutas">Rutas</a></li>
+	<li><a href="/appeps/gerente/eventos">Registro de eventos</a></li>
+	<li><a data-toggle="modal" data-target="#exitmodal">Cerrar sesión</a></li>
+{% endblock navbarcontent %}
+
+{% block rowscontent %}
+<div class="row">
+		<div class="col-md-12">
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#todas" data-toggle="tab">Todas</a></li>
+				<li><a href="#vigentes" data-toggle="tab">Vigentes</a></li>
+				<li><a href="#canceladas" data-toggle="tab">Canceladas</a></li>
+				<li><a href="#vencidas" data-toggle="tab">Vencidas</a></li>
+				<li><a href="#canceladastarde" data-toggle="tab">Canceladas después de fecha</a></li>
+			</ul>
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane active" id="todas">
+					{% if bills %}
+						<table class="table">
+							<tr>
+								<th>Factura de solicitud</th>
+								<th>Estado del pago</th>
+								<th>Fecha de emisión</th>
+								<th>Fecha de vencimiento</th>
+							</tr>
+							{% for bill in bills %}
+							<tr>
+								<td>
+									<a href="/appeps/gerente/facturas/{{bill.id}}">
+									{{bill.request.tracking_number}}
+									</a>
+								</td>
+								{% if bill.payment_status == '00' %}
+									<td><span class="label label-info">Vigente</span></td>
+								{% elif bill.payment_status == '01' %}
+									<td><span class="label label-success">Cancelada</span></td>
+								{% elif bill.payment_status == '02' %}
+									<td><span class="label label-danger">Vencida</span></td>
+								{% elif bill.payment_status == '03' %}
+									<td><span class="label label-warning">Cancelada después de fecha</span></td>
+								{% endif %}
+								<td>{{bill.issuance_date}}</td>
+								<td>{{bill.expiration_date}}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					{% endif %}
+			  	</div>
+			  	<div class="tab-pane" id="vigentes">
+			  		{% if bills %}
+						<table class="table">
+							<tr>
+								<th>Factura de solicitud</th>
+								<th>Fecha de emisión</th>
+								<th>Fecha de vencimiento</th>
+							</tr>
+							{% for bill in bills %}
+							{% if bill.payment_status == '00' %}
+								<tr>
+									<td>
+										<a href="/appeps/gerente/facturas/{{bill.id}}">
+										{{bill.request.tracking_number}}
+										</a>
+									</td>
+									<td>{{bill.issuance_date}}</td>
+									<td>{{bill.expiration_date}}</td>
+								</tr>
+							{% endif %}	
+							{% endfor %}
+						</table>
+					{% endif %}
+			  	</div>
+			  	<div class="tab-pane" id="canceladas">
+			  		{% if bills %}
+						<table class="table">
+							<tr>
+								<th>Factura de solicitud</th>
+								<th>Fecha de emisión</th>
+								<th>Fecha de vencimiento</th>
+							</tr>
+							{% for bill in bills %}
+							{% if bill.payment_status == '01' %}
+								<tr>
+									<td>
+										<a href="/appeps/gerente/facturas/{{bill.id}}">
+										{{bill.request.tracking_number}}
+										</a>
+									</td>
+									<td>{{bill.issuance_date}}</td>
+									<td>{{bill.expiration_date}}</td>
+								</tr>
+							{% endif %}	
+							{% endfor %}
+						</table>
+					{% endif %}
+			  	</div>
+			  	<div class="tab-pane" id="vencidas">
+			  		{% if bills %}
+						<table class="table">
+							<tr>
+								<th>Factura de solicitud</th>
+								<th>Fecha de emisión</th>
+								<th>Fecha de vencimiento</th>
+							</tr>
+							{% for bill in bills %}
+							{% if bill.payment_status == '02' %}
+								<tr>
+									<tr>
+									<td>
+										<a href="/appeps/gerente/facturas/{{bill.id}}">
+										{{bill.request.tracking_number}}
+										</a>
+									</td>
+									<td>{{bill.issuance_date}}</td>
+									<td>{{bill.expiration_date}}</td>
+								</tr>
+								</tr>
+							{% endif %}	
+							{% endfor %}
+						</table>
+					{% endif %}
+			  	</div>
+			  	<div class="tab-pane" id="canceladastarde">
+			  		{% if bills %}
+						<table class="table">
+							<tr>
+								<th>Factura de solicitud</th>
+								<th>Fecha de emisión</th>
+								<th>Fecha de vencimiento</th>
+							</tr>
+							{% for bill in bills %}
+							{% if bill.payment_status == '03' %}
+								<tr>
+									<tr>
+									<td>
+										<a href="/appeps/gerente/facturas/{{bill.id}}">
+										{{bill.request.tracking_number}}
+										</a>
+									</td>
+									<td>{{bill.issuance_date}}</td>
+									<td>{{bill.expiration_date}}</td>
+								</tr>
+								</tr>
+							{% endif %}	
+							{% endfor %}
+						</table>
+					{% endif %}
+			  	</div>
+			</div>
+		</div>
+	</div>
+{% endblock rowscontent %}

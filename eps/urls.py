@@ -28,6 +28,8 @@ urlpatterns = patterns('',
     
     url(r'^appeps/gerente/buscar$','epsapp.views.searchreq',name='searchreq'),                                              #Buscar solicitud
     
+    url(r'^appeps/gerente/facturas$','epsapp.views.bills',name='bills'),                                                    #Lista de facturas
+    url(r'^appeps/gerente/facturas/(?P<billid>\d+)$','epsapp.views.billdetail',name='billdetail'),                          #Detalles de una factura
     url(r'^appeps/gerente/reportes$','epsapp.views.reports',name='reports'),                                                #Reportes
     url(r'^appeps/gerente/rutas$','epsapp.views.routes',name='routes'),                                                     #Rutas
     url(r'^appeps/gerente/eventos$','epsapp.views.logs',name='logs'),                                                       #Registro de eventos
@@ -44,7 +46,6 @@ urlpatterns = patterns('',
     url(r'^appeps/despachador/solicitudes/actualizar/(?P<requestid>\d+)$','epsapp.views.updatereq_disp',name='updatereq_disp'), #Actualizar solicitud
     url(r'^appeps/despachador/buscar$','epsapp.views.searchreq',name='searchreq'),                                          #Buscar solicitud
     
-
     ###------------------------------------------------------Otros--------------------------------------###
 
     url(r'^appeps/error$','epsapp.views.exception',name='exception'),                                                       #Excepcion o error
