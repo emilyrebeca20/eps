@@ -309,10 +309,90 @@ def billdetail(request,billid):
 def routes(request):
 	return render(request,'routes-man.html')
 
-#Reportes
+#Todos los Reportes
 @manager_required
 def reports(request):
-	return render(request,'reports-man.html')
+	reports = Report.objects.all()
+	form = CreateReportForm()
+	messages.success(request,'Principal reportes.',extra_tags='success')
+	return render(request,'reports-man.html',{'reports':reports,'form':form})
+
+#Crear reporte
+@manager_required
+def newreport(request):
+	if request.method == 'POST':
+		form = CreateReportForm(request.POST)
+		if form.is_valid():
+			cdata = form.cleaned_data
+			#int_init = datetime.strptime(str(cdata['int_init']),'%d/%m/%Y %H:%M:%S')
+			#int_end = datetime.strptime(str(cdata['int_end']),'%d/%m/%Y %H:%M:%S')
+			type = cdata['type']
+			int_init = cdata['int_init']
+			int_end = cdata['int_end']
+			print int_init
+			print int_end
+			print type
+			employee = request.user.employee
+
+			#employee
+			newreport = Report(int_init=int_init,int_end=int_end,type=type,employee=employee)
+			newreport.save()
+			print newreport
+			messages.success(request,'Formulario de nuevo reporte válido.\nReporte creado',extra_tags='success')
+			return HttpResponseRedirect('/appeps/gerente/reportes/'+str(newreport.id))
+		else:
+			messages.error(request,'Formulario de nuevo reporte inválido',extra_tags='danger')
+			return HttpResponseRedirect('/appeps/gerente/reportes')
+	else:
+		form = CreateReportForm()
+		messages.success(request,'Nuevo reporte.',extra_tags='success')
+		return render(request,'reports-man.html',{'form':forms})
+
+#Detalles reporte
+@manager_required
+def reportdetail(request,reportid):
+	reports = Report.objects.filter(id=reportid)
+	if reports.count():
+		report = reports.first()
+		int_init = report.int_init
+		int_end = report.int_end
+		type = report.type
+		if type == '01':
+			msg = 'Solicitudes despachadas y tiempo de despacho'
+			#Solicitudes despachadas, el intervalo indicado se aplica a la fecha en que fueron despachadas (no funciona bien)
+			reportquery = DeliveryRequest.objects.filter(status__status='02',status__status_date__range=(int_init,int_end))
+		elif type == '02':
+			msg = 'Solicitudes pendientes y tiempo pendiente'
+			#Solicitudes pendientes y tiempo pendiente, el intervalo indicado se aplica a la fecha en que fueron creadas
+			reportquery = DeliveryRequest.objects.filter(request_date__range=(int_init,int_end)).exclude(status__status='02').exclude(status__status='03')
+		elif type == '03':
+			msg = 'Clientes ordenados por cantidad de solicitudes'
+			deliveryreq = DeliveryRequest.objects.filter(request_date__range=(int_init,int_end))
+			reportquery = Associated.objects.filter()
+		elif type == '04':
+			msg = 'Destinos ordenados por cantidad de solicitudes'
+			#Destinos ordenados por cantidad de solicitudes, el intervalo indicado se aplica a la fecha de las solicitudes
+			deliveryreq = DeliveryRequest.objects.filter(request_date__range=(int_init,int_end))
+			for dr in deliveryreq:
+			reportquery = Location.objects.all()
+		elif type == '05':
+			msg = 'Facturas ordenadas por tiempo de cancelacion'
+			#Facturas ordenadas por tiempo de cancelacion, el intervalo se aplica a la fecha de cancelacion de la factura
+			reportquery = Bill.objects.filter(payment_date__range=(int_init,int_end))
+		elif type == '06':
+			msg = 'Facturas vigentes por cobrar'
+			#Facturas vigentes por cobrar, el intervalo indicado se aplica a la fecha de creacion de la factura
+			reportquery = Bill.objects.filter(issuance_date__range=(int_init,int_end),payment_status='00')
+		elif type == '07':
+			msg = 'Facturas vencidas por cobrar'
+			#Facturas vencidas por cobrar, el intervalo indicado se aplica a la fecha de creacion de la factura
+			reportquery = Bill.objects.filter(issuance_date__range=(int_init,int_end),payment_status='02')
+
+		messages.success(request,'Detalle de reporte.',extra_tags='success')
+		return render(request,'reports-detail-man.html',{'report':report,'msg':msg,'reportquery':reportquery})
+	else:
+		messages.error(request,'No se encontró el reporte.',extra_tags='danger')
+		return render(request,'reports-detail-man.html')
 
 #Registro de eventos
 @manager_required

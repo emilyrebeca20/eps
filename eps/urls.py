@@ -30,7 +30,9 @@ urlpatterns = patterns('',
     
     url(r'^appeps/gerente/facturas$','epsapp.views.bills',name='bills'),                                                    #Lista de facturas
     url(r'^appeps/gerente/facturas/(?P<billid>\d+)$','epsapp.views.billdetail',name='billdetail'),                          #Detalles de una factura
-    url(r'^appeps/gerente/reportes$','epsapp.views.reports',name='reports'),                                                #Reportes
+    url(r'^appeps/gerente/reportes$','epsapp.views.reports',name='reports'),
+    url(r'^appeps/gerente/reportes/crear$','epsapp.views.newreport',name='newreport'),                                                   #Reportes
+    url(r'^appeps/gerente/reportes/(?P<reportid>\d+)$','epsapp.views.reportdetail',name='reportdetail'), 
     url(r'^appeps/gerente/rutas$','epsapp.views.routes',name='routes'),                                                     #Rutas
     url(r'^appeps/gerente/eventos$','epsapp.views.logs',name='logs'),                                                       #Registro de eventos
     url(r'^appeps/gerente/eventos/filtrar$','epsapp.views.filterlog',name='filterlog'),                                     #Filtrar entradas del log

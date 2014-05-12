@@ -1,0 +1,45 @@
+{% extends "emptemplate.html" %}
+{% load staticfiles %}
+
+
+{% block title %}Sistema EPS: Reportes{% endblock title %}
+
+{% block role %}
+	Gerente:
+{% endblock role %}
+
+{% block othercss %}
+	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/empcss.css' %}"/>
+{% endblock othercss %}
+
+
+{% block navbarcontent %}
+	<li><a href="/appeps/gerente">Inicio</a></li>
+	<li><a href="/appeps/gerente/solicitudes">Gestión de Solicitudes</a></li>
+	<li><a href="/appeps/gerente/facturas">Facturas</a></li>
+	<li class="active"><a href="/appeps/gerente/reportes">Reportes</a></li>
+	<li><a href="/appeps/gerente/rutas">Rutas</a></li>
+	<li><a href="/appeps/gerente/eventos">Registro de eventos</a></li>
+	<li><a data-toggle="modal" data-target="#exitmodal">Cerrar sesión</a></li>
+{% endblock navbarcontent %}
+
+
+{% block rowscontent %}
+	<div class="row">
+		<div class="col-md-12">
+			<h1>Detalle de Reporte {{report.id}}</h1>
+			<p>Tipo: {{msg}}</p>
+			<p>{{report}}</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<ul>
+				{% for object in reportquery  %}
+					<li>{{object}}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+{% endblock rowscontent %}

@@ -10,7 +10,50 @@
 
 {% block othercss %}
 	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/empcss.css' %}"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/jquery-ui-1.10.4/themes/base/jquery-ui.css' %}"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="{% static 'assets/css/jquery-ui-timepicker-addon.css' %}"/>
 {% endblock othercss %}
+
+
+{% block headscripts %}
+
+	<script src="{% static 'assets/jquery-ui-1.10.4/ui/jquery-ui.js' %}"></script>
+	<script src="{% static 'assets/js/jquery-ui-timepicker-addon.js' %}"></script>
+	<script src="{% static 'assets/jquery-ui-1.10.4/ui/i18n/jquery.ui.datepicker-es.js' %}"></script>
+	<script>
+	$( document ).ready(function() {
+	  //$( "#id_int_init" ).attr("required","true");
+	  //$( "#id_int_end" ).attr("required","true");
+	  $(function() {
+	    $( "#id_int_init" ).datetimepicker({
+	      timeFormat: 'HH:mm:ss',
+	      changeMonth: true,
+	      changeYear: true,
+	      controlType: 'select',
+	      timeText: 'Horario',
+	      hourText: 'Hora',
+	      minuteText: 'Minutos',
+	      secondText: 'Segundos',
+	      currentText: 'Ahora',
+	      closeText: 'Cerrar'
+	    });
+	    $( "#id_int_end" ).datetimepicker({
+	      timeFormat: 'HH:mm:ss',
+	      changeMonth: true,
+	      changeYear: true,
+	      controlType: 'select',
+	      timeText: 'Horario',
+	      hourText: 'Hora',
+	      minuteText: 'Minutos',
+	      secondText: 'Segundos',
+	      currentText: 'Ahora',
+	      closeText: 'Cerrar'
+	    });
+	  });
+	});
+		
+  	</script>
+{% endblock headscripts %}
 
 {% block navbarcontent %}
 	<li><a href="/appeps/gerente">Inicio</a></li>
@@ -22,12 +65,47 @@
 	<li><a data-toggle="modal" data-target="#exitmodal">Cerrar sesión</a></li>
 {% endblock navbarcontent %}
 
+{% block modal1 %}
+	<div class="modal fade" id="createreport">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h4 class="modal-title">Crear nuevo reporte</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form action="/appeps/gerente/reportes/crear" method="post" id="newrepform">{% csrf_token %}
+	        	{{ form.as_p }}
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	        <button class="btn btn-primary" type="submit" form="newrepform">Crear</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+{% endblock modal1 %}
+
 {% block rowscontent %}
 	<div class="row">
 		<div class="col-md-12">
-			<div class="bs-callout bs-callout-blue">
-				<h1>Reportes</h1>
+			<div class="bs-callout-small bs-callout-blue">
+				<a class="btn btn-primary" data-toggle="modal" data-target="#createreport" role="button">
+				Nuevo Reporte 
+				<span class="glyphicon glyphicon-plus">
+			</a>
 			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<ul>
+			{% if reports %}
+			{% for report in reports %}
+			<li><a href="/appeps/gerente/reportes/{{report.id}}">{{ report }}</a></li>
+			{% endfor %}
+			{% endif %}</ul>
 		</div>
 	</div>
 {% endblock rowscontent %}

@@ -14,6 +14,20 @@ class UpdateStatusForm(forms.Form):
 	('02','Despachada'),
 	('03','Entregada'))
 
-	status = forms.ChoiceField(choices=DELIVERYREQUEST_STATUS,label='Estado')
-	location = LocationChoiceField(queryset=Location.objects.all(),empty_label=None,label='Locación')
+	status = forms.ChoiceField(choices=DELIVERYREQUEST_STATUS,label='Estado',required=True)
+	location = LocationChoiceField(queryset=Location.objects.all(),empty_label=None,label='Locación',required=True)
 
+
+class CreateReportForm(forms.Form):
+	int_init = forms.DateTimeField(label='Inicio de intervalo')
+	int_end = forms.DateTimeField(label='Fin de intervalo')
+	REPORT_TYPES = (
+		('01','Solicitudes despachadas y tiempo de despacho'),
+		('02','Solicitudes pendientes y tiempo pendiente'),
+		('03','Clientes ordenados por cantidad de solicitudes'),
+		('04','Destinos ordenados por cantidad de solicitudes'),
+		('05','Facturas ordenadas por tiempo de cancelacion'),
+		('06','Facturas vigentes por cobrar'),
+		('07','Facturas vencidas por cobrar'),
+		)
+	type = forms.ChoiceField(choices=REPORT_TYPES,label='Tipo de reporte',required=True)
