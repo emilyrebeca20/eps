@@ -283,6 +283,16 @@ def bills(request):
 		bills = Bill.objects.all()
 		if bills.count() <= 0:
 			messages.warning(request,'No existen facturas registradas en el sistema.',extra_tags='warning')
+		else:
+			for bill in bills:
+				if bill.payment_status == '00':
+					now = datetime.utcnow().replace(tzinfo=utc)
+					#print str(bill.id) + ' ' + str(now) + ' ' +  str(bill.expiration_date)
+					if now > bill.expiration_date:
+						#print 'Vencida'
+						bill.payment_status = '02'
+						bill.save()
+
 		return render(request,'bills-man.html',{'bills':bills})
 	else:
 		return HttpResponse(status=400)
@@ -779,10 +789,25 @@ def wsdetailbill(request,billid):
 				#assoc_found = Associated.objects.filter(rif=associated[0].text,assoc_name=associated[1].text)
 				#if assoc_found.count() == 1:			
 			xmlbillid = int(root[0].text)
-			print xmlbillid
-			print billid
+			#print xmlbillid
+			#print billid
 			if int(billid) == xmlbillid:
-				return HttpResponse(root[5][0].text,content_type='text/plain')
+				paymentcode = int(root[5][0].text)
+				if paymentcode == 1000:
+					msg = 'Pago aceptado'
+					paystat = requestedbill.payment_status
+					if paystat == '00':
+						requestedbill.payment_status = '01'
+						requestedbill.payment_date = datetime.utcnow().replace(tzinfo=utc)
+					elif paystat == '02':
+						requestedbill.payment_status = '03'
+						requestedbill.payment_date = datetime.utcnow().replace(tzinfo=utc)
+					requestedbill.save()
+				elif paymentcode == 2000:
+					msg = 'Pago rechazado'
+				print msg
+				return HttpResponse(status=200)
+				#return HttpResponse(msg,content_type='text/plain')
 			else:
 				print 'El identificador de la factura no coincide'
 				return HttpResponse(status=400)
