@@ -373,7 +373,7 @@ def reportdetail(request,reportid):
 			msg = 'Destinos ordenados por cantidad de solicitudes'
 			#Destinos ordenados por cantidad de solicitudes, el intervalo indicado se aplica a la fecha de las solicitudes
 			deliveryreq = DeliveryRequest.objects.filter(request_date__range=(int_init,int_end))
-			for dr in deliveryreq:
+			#for dr in deliveryreq:
 			reportquery = Location.objects.all()
 		elif type == '05':
 			msg = 'Facturas ordenadas por tiempo de cancelacion'
@@ -758,8 +758,40 @@ def wsdetailrequest(request,requestid):
 	else:
 		return HttpResponse('No existe la solicitud.',content_type='text/plain')
 
+@csrf_exempt
 def wsdetailbill(request,billid):
-	reqbody = xmlbill(billid) 
-	url = 'http://127.0.0.1:4567/comercio1/factura'
-	r = requests.post(url,data=reqbody,headers={'content-type':'application/xml'})
-	return HttpResponse(reqbody,content_type='application/xml') 
+	if request.method=='GET':
+		reqbody = xmlbill(billid) 
+		#url = 'http://127.0.0.1:4567/comercio1/factura'
+		#r = requests.post(url,data=reqbody,headers={'content-type':'application/xml'})
+		return HttpResponse(reqbody,content_type='application/xml')
+	elif request.method=='POST':
+		requestedbill = Bill.objects.get(id=billid)
+
+		conttype = request.META['CONTENT_TYPE']
+		if conttype == 'application/xml':
+			xmlrequest = request.body
+			#dtdstring = StringIO.StringIO('<!ELEMENT factura (idFactura,actores,despachos,costos,fechas,statuses)><!ELEMENT idFactura (#PCDATA)><!ELEMENT actores (emisor,pagador)><!ELEMENT emisor (rifEmisor,nombreEmisor,cuenta)><!ELEMENT rifEmisor (#PCDATA)><!ELEMENT nombreEmisor (#PCDATA)><!ELEMENT cuenta (#PCDATA)><!ELEMENT pagador (rifPagador,nombrePagador)><!ELEMENT rifPagador (#PCDATA)><!ELEMENT nombrePagador (#PCDATA)><!ELEMENT despachos (despacho+)><!ELEMENT despacho (id,productos,tracking,costo)><!ELEMENT id (#PCDATA)><!ELEMENT productos (producto+)><!ELEMENT producto (nombre,cantidad,medidas)><!ELEMENT nombre (#PCDATA)><!ELEMENT cantidad (#PCDATA)><!ELEMENT medidas (peso,largo,ancho,alto)><!ELEMENT peso (#PCDATA)><!ELEMENT largo (#PCDATA)><!ELEMENT ancho (#PCDATA)><!ELEMENT alto (#PCDATA)><!ELEMENT tracking (#PCDATA)><!ELEMENT costo (#PCDATA)><!ELEMENT costos (subtotal,impuestos,total)><!ELEMENT subtotal (#PCDATA)><!ELEMENT impuestos (#PCDATA)><!ELEMENT total (#PCDATA)><!ELEMENT fechas (fechaEmision,fechaVencimiento,fechaPago)><!ELEMENT fechaEmision (#PCDATA)><!ELEMENT fechaVencimiento (#PCDATA)><!ELEMENT fechaPago (#PCDATA)><!ELEMENT statuses (status+)><!ELEMENT status (#PCDATA)>')
+			#dtd = etree.DTD(dtdstring)
+			root = etree.XML(xmlrequest)
+			#if dtd.validate(root):
+				#associated = root[1]
+				#assoc_found = Associated.objects.filter(rif=associated[0].text,assoc_name=associated[1].text)
+				#if assoc_found.count() == 1:			
+			xmlbillid = int(root[0].text)
+			print xmlbillid
+			print billid
+			if int(billid) == xmlbillid:
+				return HttpResponse(root[5][0].text,content_type='text/plain')
+			else:
+				print 'El identificador de la factura no coincide'
+				return HttpResponse(status=400)
+				#else:
+				#	print 'El comercio no se encuentra registrado'
+				#	return HttpResponse(status=400)
+			#else:
+			#	print 'No pase la validacion contra DTD'
+			#	return HttpResponse(status=400)
+		else:
+			return HttpResponse(status=400)
+
