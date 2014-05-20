@@ -1,0 +1,215 @@
+commit ddf6fb9e8285b3b619fb1d202d8118334f449011
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Mon May 12 23:47:16 2014 -0430
+
+    Actualizar estados de pago (por pago y por vencimiento)
+
+commit 3e7748afad51696eb3e62b3e7bb0071a628101da
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Mon May 12 21:37:14 2014 -0430
+
+    Commit para cambiar de maquina
+
+commit 9f0d3408a5d218e4a30a6ddb2404083ebeb23864
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun May 11 22:56:54 2014 -0430
+
+    QuerySets de reportes (faltan Clientes y Destinos)
+
+commit 6624f0d4414933c7632578cb895f2cf7d64a717b
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Apr 20 23:35:03 2014 -0430
+
+    Listado y detalles de facturas con indicadores de vencimiento.
+
+commit b6d69c00e80b6064dac342826f7f7779d10e9485
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Apr 20 18:46:56 2014 -0430
+
+    Actualizar estado de solicitud (despachador)
+
+commit cc855da785e68c4f5fc3ac8049e90fbd3686870e
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Apr 20 17:41:56 2014 -0430
+
+    Actualizar estado de solicitud
+
+commit 976506d6d0cc0983d7ab1c9f4fc0908921ff5516
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Thu Apr 3 12:27:25 2014 -0430
+
+    Enviar factura a banco y comercio.
+
+commit f5835124c8fc4f7daf12ed6a41a715cbd5283c19
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Mon Mar 31 21:29:53 2014 -0430
+
+    Funcion que contruye XML de factura.
+
+commit 6202ccfacff34866fa39cde92325166911ebb796
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Mon Mar 31 11:30:29 2014 -0430
+
+    Modificaciones a crear solicitud de envio.
+
+commit 334ad2f1c15321e0e24719a41c075f9a12d597f8
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Mon Mar 31 00:05:53 2014 -0430
+
+    Servicio para que el comercio obtenga el estado de una solicitud
+
+commit ab6e6c1a847735254cef3822c9b69c55bbfcef99
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Thu Mar 27 01:07:18 2014 -0430
+
+    Respuesta luego de crear solicitud.
+
+commit 9547e13b43d77dedcfb59ccca1b600b49ba7cf8f
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Mon Mar 24 00:09:44 2014 -0430
+
+    Comercio genera solicitud de envio
+
+commit d16af71a646eda4e94579c2446765b089734be1b
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Mar 23 00:57:05 2014 -0430
+
+    Antes de instalacion de lxml
+
+commit 2742d91cb56d486081565173ca441df247a583af
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Fri Mar 14 00:39:38 2014 -0430
+
+    Eliminar entrada de registro
+
+commit f8b867bb3fc8fc6a99c7970604042d526f4f9130
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Fri Mar 14 00:35:32 2014 -0430
+
+    Eliminar entrada de registro
+
+commit e203f423f64620bb913cc970e29c4d9aa29a51b5
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Mon Mar 10 03:29:07 2014 -0430
+
+    Visualizacion y filtrado de log
+
+commit f3587247f30f2ee8e3cbff5da65dab046891ef1d
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Mar 9 22:52:22 2014 -0430
+
+    Link a rutas agregado
+
+commit b79a35ee5e16d7dd017aea72e7c5799386d20161
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Mar 9 22:14:53 2014 -0430
+
+    Busqueda de solicitud por numero de rastreo
+
+commit 3c803dc7cfc6e6d53aa2ac436be6a4cfb7594bd6
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Mar 9 18:54:46 2014 -0430
+
+    Modales para confirmar cierre de sesión.
+
+commit 4a83e3d6d363e94c583a238812afb8840dd0326e
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Mar 9 17:25:24 2014 -0430
+
+    Modificacion de detalle de solicitud y agregado mostrar solicitudes clasificadas.
+
+commit f59e719170bb3351297f0446b1650691e0ab6106
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Mar 2 17:19:42 2014 -0430
+
+    Actualizacion modelo Status.
+
+commit 3f0391dc0dde4cfd88b5b10c3321857753d3cc9f
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Mar 2 02:02:39 2014 -0430
+
+    Listado y detalle de solicitudes
+
+commit 530ad639a3053df53067925d3ec3aff63aab369b
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Fri Feb 28 01:56:58 2014 -0430
+
+    Markup pestanias de gestion de solicitudes.
+
+commit b55b7b6e8a49235ca6b2fc067d94b2371fd14811
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Fri Feb 28 01:45:46 2014 -0430
+
+    Navegabilidad entre opciones del navbar
+
+commit a640f1fadde112a76a29074dee73567404bb25ea
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Thu Feb 27 22:32:30 2014 -0430
+
+    Login, logout y decoradores de acceso
+
+commit a776082a808e34bab3b0fe3af44a51c01fe9a209
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Mon Feb 24 13:56:09 2014 -0430
+
+    Consulta de tracking y manejo de mensajes
+
+commit 3d9e7c1a9123a1d20920b53d7bf080522109e689
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Mon Feb 24 01:37:34 2014 -0430
+
+    Consultar numero de rastreo mas cambios en el modelo
+
+commit 6dbd21981ad6485b5a7de01dcc056515bcc37fb9
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Feb 23 15:14:19 2014 -0430
+
+    Modelos y Admin
+
+commit 67d901ed03cde96500e25abaf4afd696747f29f8
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Feb 23 14:33:43 2014 -0430
+
+    Modelos y Admin
+
+commit 11490d8dcba535cdf28feba1750d853557ce0bca
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Sun Feb 23 13:45:56 2014 -0430
+
+    Modelos y Admin
+
+commit 3efe61723cc135976886396234b8455010602c9e
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Fri Feb 21 01:40:51 2014 -0430
+
+    Home
+
+commit 966b8e42cde8436c6895f54eac049c8ce0f6eec5
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Fri Feb 21 01:37:54 2014 -0430
+
+    Home
+
+commit 9de469854393f26a8ddcaebf2944dcee4adfaf0a
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Thu Feb 20 01:21:27 2014 -0430
+
+    Home
+
+commit 637c44024c15776b82b191b4ac508c1ef24a483d
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Wed Feb 19 22:35:59 2014 -0430
+
+    Home
+
+commit a978d2b4bfa2d313b871428d0a0ba2bb292b40d9
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Wed Feb 19 15:51:14 2014 -0430
+
+    Herencia de plantillas
+
+commit 919851dbed0e6ae85fc08e0092bd4f0ab053d68b
+Author: Emily Corro <emilyrebeca20@gmail.com>
+Date:   Tue Feb 18 23:39:16 2014 -0430
+
+    Creacion y configuracion del proyecto
