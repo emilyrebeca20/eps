@@ -20,64 +20,161 @@ import pytz
 from django.db import transaction
 import requests
 
+"""---------------------------------------------Funciones utiles---------------------------------------------"""
 
-# Create your views here.
+"""Esta funcion guarda un evento en el registro"""
+def logevent(msg,msgtype):
+	try:
+		newlogentry = LogEntry(
+		event_type=msgtype,
+		event_desc=msg)
+		newlogentry.save()
+		return 1
+	except Exception, e:
+		return 0
+					
+"""Esta funcion recibe el id de una factura y devuelve su 
+informacion en formato XML"""
+def xmlbill(billreq):
+	try:
+		delreqbill = Bill.objects.get(pk=billreq)
+	except Bill.DoesNotExist:
+		print 'No existe la factura o la solicitud de envio'
+	except MultipleObjectsReturned:
+		print 'Existen varias facturas que coiniciden con la solicitud de envio'
+	else:
+		delreq = delreqbill.request
+		#print 'Factura: ' + str(delreqbill)
+		factura = etree.Element('factura')
+		etree.SubElement(factura,'idFactura').text = str(delreqbill.pk)
+		actores = etree.SubElement(factura,'actores')
+		emisor = etree.SubElement(actores,'emisor')
+		etree.SubElement(emisor,'rifEmisor').text = str(delreqbill.dist_rif)
+		etree.SubElement(emisor,'nombreEmisor').text = str(delreqbill.dist_name)
+		etree.SubElement(emisor,'cuenta').text = str(delreqbill.account_number)
+		pagador = etree.SubElement(actores,'pagador')
+		etree.SubElement(pagador,'rifPagador').text = str(delreq.associated_comm.rif)
+		etree.SubElement(pagador,'nombrePagador').text = str(delreq.associated_comm.assoc_name)
+		despachos = etree.SubElement(factura,'despachos')
+		despacho = etree.SubElement(despachos,'despacho')
+		productos = etree.SubElement(despacho,'productos')
+		packagelist = delreq.package_set.all()
+		for packageunit in packagelist:
+			producto = etree.SubElement(productos,'producto')
+			etree.SubElement(producto,'id').text = str(packageunit.pk)
+			etree.SubElement(producto,'nombre').text = str(packageunit.description)
+			etree.SubElement(producto,'cantidad').text = str(packageunit.amount)
+			medidas = etree.SubElement(producto,'medidas')
+			etree.SubElement(medidas,'peso').text = str(packageunit.weigth)
+			etree.SubElement(medidas,'largo').text = str(packageunit.length)
+			etree.SubElement(medidas,'ancho').text = str(packageunit.width)
+			etree.SubElement(medidas,'alto').text = str(packageunit.height)
+			#print packageunit
+		etree.SubElement(despacho,'tracking').text = str(delreq.tracking_number)
+		etree.SubElement(despacho,'costo').text = str(delreqbill.total)
+		costos = etree.SubElement(factura,'costos')
+		etree.SubElement(costos,'subtotal').text = str(delreqbill.sub_total)
+		etree.SubElement(costos,'impuestos').text = str(delreqbill.taxes)
+		etree.SubElement(costos,'total').text = str(delreqbill.total)
 
-#Renderiza la plantilla padre
+		fechas = etree.SubElement(factura,'fechas')
+		etree.SubElement(fechas,'fechaEmision').text = str(delreqbill.issuance_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M'))
+		etree.SubElement(fechas,'fechaVencimiento').text = str(delreqbill.expiration_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M'))
+		if delreqbill.payment_date:
+			paymentdate = delreqbill.payment_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M')
+		else:
+			paymentdate = delreqbill.payment_date
+		etree.SubElement(fechas,'fechaPago').text = str(paymentdate)
+
+		statuses = etree.SubElement(factura,'statuses')
+		statuslist = delreq.status_set.all()
+		for statusunit in statuslist:
+			date = statusunit.status_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M')
+			if statusunit.status == '00':
+				stat = 'Recibido'
+			elif statusunit.status == '01':
+				stat = 'Por despachar'
+			elif statusunit.status == '02':
+				stat = 'Despachada'
+			elif statusunit.status == '03':
+				stat = 'Entregada'
+			etree.SubElement(statuses,'status').text = date + ' ' + stat
+		return etree.tostring(factura, pretty_print=True)
+
+"""--------------------------------------------------Vistas--------------------------------------------------"""
+
+"""Esta vista muestra la pagina de principal para el cliente"""
 def home(request):
-	return render(request,'home.html')
-
-#Consulta de solicitud por numero de rastreo
+	try:
+		return render(request,'home.html')
+	except Exception, e:
+		return HttpResponse(status=400)
+	else:
+		HttpResponse(status=400)
+		
+"""Esta vista muestra el la informacion asociada a una solicitud 
+de envio. Es invocada al colocar el numero de rastreo en la 
+pagina principal"""
 def tracking(request):
 	if request.method == 'GET':
 		params = request.GET 
 		if 'trackingn' in params:
 			trackingnum = params['trackingn']
-			delivery_req = DeliveryRequest.objects.filter(tracking_number=trackingnum)
-			if delivery_req.count() == 1:
-				return render(request,'trackinginfo.html',{'deliveryreq':delivery_req.first()})
-			else:
+			try:
+				delivery_req = DeliveryRequest.objects.get(tracking_number=trackingnum)
+			except DeliveryRequest.DoesNotExist:
 				messages.error(request,'La solicitud requerida no existe.',extra_tags='danger')
 				return render(request,'trackinginfo.html')
+			except MultipleObjectsReturned:
+				return HttpResponse(status=400)
+			except Exception, e:
+				return HttpResponse(status=400)
+			else:
+				return render(request,'trackinginfo.html',{'deliveryreq':delivery_req})
 		else:
 			return HttpResponse(status=400)
 	else:
 		return HttpResponse(status=400)
 
-#Pantalla principal de empleados
+"""Esta vista muestra la pagina de principal para el empleado"""
 def empmain(request):
-	return render(request,'empmain.html')
+	try:
+		return render(request,'empmain.html')
+	except Exception, e:
+		return HttpResponse(status=400)
+	else:
+		HttpResponse(status=400)
 
-#Inicio de sesion de empleados
+"""Esta vista maneja el inicio de sesión de los empleados en el 
+sistema"""
 def emplogin(request):
-	#print 'Hola'
 	if request.method == 'POST':
 		params = request.POST
 		if 'username' in params and 'password' in params:
 			user = authenticate(username=params['username'], password=params['password'])
 			if user is not None:
 				if user.is_active:
-					profile = Employee.objects.filter(user=user)
-					if profile.count() == 1:
+					try:
+						profile = Employee.objects.get(user=user)
+					except Employee.DoesNotExist:
+						messages.error(request,'El usuario no es empleado.',extra_tags='danger')
+						return render(request,'trackinginfo.html')
+					except MultipleObjectsReturned:
+						return HttpResponse(status=400)
+					except Exception, e:
+						return HttpResponse(status=400)
+					else:
 						login(request,user)
 						messages.success(request,'Inicio de sesión exitoso.',extra_tags='success')
-						
 						mssg = u'El empleado ' + user.first_name + ' ' + user.last_name + u' ha iniciado sesión en el sistema.'
-						newlogentry = LogEntry(
-							event_type='EMP',
-							event_desc=mssg)
-						newlogentry.save()
-
-						if profile.first().role.role_name == 'Gerente':
+						logevent(mssg,'EMP')
+						if profile.role.role_name == 'Gerente':
 							return HttpResponseRedirect('/appeps/gerente')
-						elif profile.first().role.role_name == 'Despachador':
+						elif profile.role.role_name == 'Despachador':
 							return HttpResponseRedirect('/appeps/despachador')
 						else:
 							messages.warning(request,'No tiene rol asignado.',extra_tags='warning')
 							return HttpResponseRedirect('/appeps')
-					else:
-						messages.warning(request,'No es empleado.',extra_tags='warning')
-						return HttpResponseRedirect('/appeps')
 				else:
 					messages.error(request,'Esta cuenta ha sido deshabilitada.',extra_tags='danger')
 					return HttpResponseRedirect('/appeps')
@@ -90,25 +187,58 @@ def emplogin(request):
 	else:
 		return HttpResponse(status=400)
 
-#Pantalla principal del gerente
+"""Esta vista maneja el cierre de sesión de los empleados en el 
+sistema"""
+@employee_required
+def emplogout(request):
+	try:
+		user = request.user
+		first_name = user.first_name
+		last_name = user.last_name
+		logout(request)
+	except Exception, e:
+		messages.error(request,'Cierre de sesión exitoso.',extra_tags='danger')
+	else:
+		messages.success(request,'Cierre de sesión exitoso.',extra_tags='success')
+		mssg = u'El empleado ' + first_name + ' ' + last_name + u' ha cerrado sesión en el sistema.'
+		logevent(mssg,'EMP')
+		return HttpResponseRedirect('/appeps')
+
+"""Esta vista muestra la pagina de principal para el gerente"""
 @manager_required
 def manager(request):
-	return render(request,'managermain.html')
+	try:
+		return render(request,'managermain.html')
+	except Exception, e:
+		return HttpResponse(status=400)
+	else:
+		HttpResponse(status=400)
 
-#Pantalla principal del despachador
+"""Esta vista muestra la pagina de principal para el despachador"""
 @employee_required
 def dispatcher(request):
-	return render(request,'employeemain.html')
+	try:
+		return render(request,'employeemain.html')
+	except Exception, e:
+		return HttpResponse(status=400)
+	else:
+		HttpResponse(status=400)
 
-#Todas las solicitudes de envio (despachador)
+"""Esta vista muestra al despachador todas las solicitudes de 
+envio guardadas en el sistema"""
 @employee_required
 def alldelrequest_disp(request):
-	delrequests = DeliveryRequest.objects.all()
-	if delrequests.count() <= 0:
-		messages.warning(request,'No existen solicitudes registradas en el sistema.',extra_tags='warning')
-	return render(request,'deliveryrequest-disp.html',{'delrequests':delrequests})
+	try:
+		delrequests = DeliveryRequest.objects.all()
+		if delrequests.count() <= 0:
+			messages.warning(request,'No existen solicitudes registradas en el sistema.',extra_tags='warning')
+	except Exception, e:
+		HttpResponse(status=400)
+	else:
+		return render(request,'deliveryrequest-disp.html',{'delrequests':delrequests})
 
-#Todas las solicitudes de envio (gerente)
+"""Esta vista muestra al gerente todas las solicitudes de 
+envio guardadas en el sistema"""
 @manager_required
 def alldelrequest_man(request):
 	delrequests = DeliveryRequest.objects.all()
@@ -435,23 +565,6 @@ def filterlog(request):
 	else:
 		return HttpResponse(status=400)
 
-#Cierre de sesion
-@employee_required
-def emplogout(request):
-	user = request.user
-	first_name = user.first_name
-	last_name = user.last_name
-	logout(request)
-	messages.success(request,'Cierre de sesión exitoso.',extra_tags='success')
-
-	mssg = u'El empleado ' + first_name + ' ' + last_name + u' ha cerrado sesión en el sistema.'
-	newlogentry = LogEntry(
-		event_type='EMP',
-		event_desc=mssg)
-	newlogentry.save()
-
-	return HttpResponseRedirect('/appeps')
-
 #Excepciones
 def exception(request):
 	render(request,'errtemplate.html')
@@ -477,72 +590,7 @@ def deletelogentry(request,logentryid):
 		return HttpResponse(status=400)
 
 #------------------------------------------------------------------Servicios Web---------------------------------------------------------#
-#Genera un xml a partir de la factura
-def xmlbill(billreq):
-	try:
-		delreqbill = Bill.objects.get(pk=billreq)
-	except Bill.DoesNotExist:
-		print 'No existe la factura o la solicitud de envio'
-	except MultipleObjectsReturned:
-		print 'Existen varias facturas que coiniciden con la solicitud de envio'
-	else:
-		delreq = delreqbill.request
-		#print 'Factura: ' + str(delreqbill)
-		factura = etree.Element('factura')
-		etree.SubElement(factura,'idFactura').text = str(delreqbill.pk)
-		actores = etree.SubElement(factura,'actores')
-		emisor = etree.SubElement(actores,'emisor')
-		etree.SubElement(emisor,'rifEmisor').text = str(delreqbill.dist_rif)
-		etree.SubElement(emisor,'nombreEmisor').text = str(delreqbill.dist_name)
-		etree.SubElement(emisor,'cuenta').text = str(delreqbill.account_number)
-		pagador = etree.SubElement(actores,'pagador')
-		etree.SubElement(pagador,'rifPagador').text = str(delreq.associated_comm.rif)
-		etree.SubElement(pagador,'nombrePagador').text = str(delreq.associated_comm.assoc_name)
-		despachos = etree.SubElement(factura,'despachos')
-		despacho = etree.SubElement(despachos,'despacho')
-		productos = etree.SubElement(despacho,'productos')
-		packagelist = delreq.package_set.all()
-		for packageunit in packagelist:
-			producto = etree.SubElement(productos,'producto')
-			etree.SubElement(producto,'id').text = str(packageunit.pk)
-			etree.SubElement(producto,'nombre').text = str(packageunit.description)
-			etree.SubElement(producto,'cantidad').text = str(packageunit.amount)
-			medidas = etree.SubElement(producto,'medidas')
-			etree.SubElement(medidas,'peso').text = str(packageunit.weigth)
-			etree.SubElement(medidas,'largo').text = str(packageunit.length)
-			etree.SubElement(medidas,'ancho').text = str(packageunit.width)
-			etree.SubElement(medidas,'alto').text = str(packageunit.height)
-			#print packageunit
-		etree.SubElement(despacho,'tracking').text = str(delreq.tracking_number)
-		etree.SubElement(despacho,'costo').text = str(delreqbill.total)
-		costos = etree.SubElement(factura,'costos')
-		etree.SubElement(costos,'subtotal').text = str(delreqbill.sub_total)
-		etree.SubElement(costos,'impuestos').text = str(delreqbill.taxes)
-		etree.SubElement(costos,'total').text = str(delreqbill.total)
 
-		fechas = etree.SubElement(factura,'fechas')
-		etree.SubElement(fechas,'fechaEmision').text = str(delreqbill.issuance_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M'))
-		etree.SubElement(fechas,'fechaVencimiento').text = str(delreqbill.expiration_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M'))
-		if delreqbill.payment_date:
-			paymentdate = delreqbill.payment_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M')
-		else:
-			paymentdate = delreqbill.payment_date
-		etree.SubElement(fechas,'fechaPago').text = str(paymentdate)
-
-		statuses = etree.SubElement(factura,'statuses')
-		statuslist = delreq.status_set.all()
-		for statusunit in statuslist:
-			date = statusunit.status_date.astimezone(timezone('America/Caracas')).strftime('%d-%m-%Y %H:%M')
-			if statusunit.status == '00':
-				stat = 'Recibido'
-			elif statusunit.status == '01':
-				stat = 'Por despachar'
-			elif statusunit.status == '02':
-				stat = 'Despachada'
-			elif statusunit.status == '03':
-				stat = 'Entregada'
-			etree.SubElement(statuses,'status').text = date + ' ' + stat
-		return etree.tostring(factura, pretty_print=True)
 
 #Comercio genera una solicitud en el sistema
 
